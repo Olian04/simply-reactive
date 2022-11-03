@@ -1,5 +1,7 @@
 # simply-reactive
 
+Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Recoil](https://recoiljs.org/).
+
 ## Installation
 
 __NPM:__
@@ -41,4 +43,3 @@ createEffect(({ get }) => {
 
 B.set(old => old * 2);
 ```
-
