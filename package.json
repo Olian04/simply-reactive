@@ -1,0 +1,42 @@
+{
+  "name": "simply-reactive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/api.js",
+  "types": "dist/api.d.ts",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:node && npm run build:web",
+    "build:node": "rimraf ./dist && tsc",
+    "build:web": "rimraf ./cdn && rollup --config",
+    "demo:helloworld": "ts-node ./demos/helloWorld.ts"
+  },
+  "keywords": [
+    "state management",
+    "reactive"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olian04/simply-reactive.git"
+  },
+  "author": "Olian04",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Olian04/simply-reactive/issues"
+  },
+  "homepage": "https://github.com/Olian04/simply-reactive#readme",
+  "devDependencies": {
+    "@types/es6-promise": "3.3.0",
+    "@types/rollup-plugin-commonjs": "^9.3.1",
+    "@types/rollup-plugin-node-resolve": "^4.1.0",
+    "@types/typescript": "^2.0.0",
+    "rollup": "^2.70.1",
+    "rollup-plugin-babel-minify": "^10.0.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2",
+    "rimraf": "^3.0.2"
+  }
+}
