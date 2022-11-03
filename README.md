@@ -46,4 +46,4 @@ B.set(old => old * 2);
 
 ## Demos
 
-* With [easy-render](https://github.com/Olian04/easy-render): https://jsfiddle.net/btc25gnu/17
+* With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/btc25gnu/17/>
