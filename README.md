@@ -12,6 +12,9 @@ __CDN:__
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
+<script>
+  const { createAtom, createSelector, createResource, createEffect } = simplyReactive;
+</script>
 ```
 
 ## Usage
