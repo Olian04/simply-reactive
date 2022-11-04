@@ -1,7 +1,7 @@
 {
   "name": "simply-reactive",
   "version": "1.0.2",
-  "description": "A tiny reactive state management library inspired by Recoil.",
+  "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
   "main": "dist/api.js",
   "types": "dist/api.d.ts",
   "scripts": {
