@@ -3,6 +3,7 @@ import type { Gettable } from "./types/Gettable";
 import type { Getter } from "./types/Getter";
 
 import { globalMemory } from "./globals";
+import { EffectCleanupStrategy } from "./types/DebounceCleanupStrategy";
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
@@ -20,21 +21,67 @@ import { globalMemory } from "./globals";
       unsubscribeFunctions: [],
     };
   }
+  const unsubscribeFromDependencies = () => {
+    mem[key].unsubscribeFunctions.forEach(unsubscribe => unsubscribe());
+    mem[key].unsubscribeFunctions = [];
+  };
   const getDependency = <T,>(gettable: Gettable<T>) => {
-  	gettable.subscribe(key, () => {
+  	const unsubscribe = gettable.subscribe(key, () => {
       if (mem[key].debounceDuration === -1) {
         runNotify();
         return;
-      }
+      };
+      mem[key].unsubscribeFunctions.push(unsubscribe);
   		clearTimeout(mem[key].notifyTimeoutId);
     	mem[key].notifyTimeoutId = setTimeout(runNotify, mem[key].debounceDuration);
     });
     return gettable.get();
   };
   const runNotify = () => {
-   notifyCallback({
-     get: getDependency,
-   });
-  }
+    unsubscribeFromDependencies();
+    notifyCallback({
+      get: getDependency,
+    });
+  };
   runNotify();
+
+  return (debounceCleanupStrategy: EffectCleanupStrategy = EffectCleanupStrategy.Discard) => {
+    if (mem[key] === undefined) {
+      // Attempting to destroy effect more than once
+      return;
+    }4
+    const flush = () => {
+      notifyCallback({
+        get: gettable => gettable.get(),
+      });
+    };
+    const clean = () => {
+      unsubscribeFromDependencies();
+      clearTimeout(mem[key].notifyTimeoutId);
+
+      //GC: Cleanup potential outside references
+      mem[key].notifyTimeoutId = undefined;
+      mem[key].debounceDuration = 0;
+      mem[key].unsubscribeFunctions = [];
+      delete mem[key];
+    }
+    switch (debounceCleanupStrategy) {
+      case EffectCleanupStrategy.Discard:
+        clean();
+        break;
+      case EffectCleanupStrategy.Flush:
+        flush();
+        clean();
+        break;
+      case EffectCleanupStrategy.FlushDebounced:
+        clearTimeout(mem[key].notifyTimeoutId);
+        setTimeout(() => {
+          flush();
+          clean();
+        }, 0);
+      default:
+        throw new Error(`Unknown DebounceCleanupStrategy: ${debounceCleanupStrategy}`);
+
+    }
+  };
 })(globalMemory as Record<string, EffectMemory>);

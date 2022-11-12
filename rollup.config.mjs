@@ -1,7 +1,7 @@
 import typescript from 'rollup-plugin-typescript';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import minify from 'rollup-plugin-babel-minify';
+import { terser } from 'rollup-plugin-terser';
 
 export default {
   input: './src/api.ts',
@@ -14,8 +14,6 @@ export default {
       typescript(),
       resolve(),
       commonjs(),
-      minify({
-        comments: false,
-      }),
+      terser(),
   ]
 }

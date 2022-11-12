@@ -2,7 +2,7 @@ import {
   createAtom,
   createEffect,
   createSelector,
-} from '../dist/api';
+} from '../src/api';
 
 const A = createAtom({
   key: 'A',
@@ -49,7 +49,8 @@ createEffect(({ get }) => {
 B.set(old => old * 2);
 
 setTimeout(() => {
-  console.log('------------')
   A.set(3);
-  B.set(1);
-}, 500);
+  B.set(3);
+}, 10);
+
+
