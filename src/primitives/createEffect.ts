@@ -1,9 +1,7 @@
-import type { EffectMemory } from "./types/EffectMemory";
-import type { Gettable } from "./types/Gettable";
-import type { Getter } from "./types/Getter";
+import type { EffectMemory } from "../types/EffectMemory";
 
-import { globalMemory } from "./globals";
-import { EffectCleanupStrategy } from "./types/DebounceCleanupStrategy";
+import { getNextAutoGet, globalMemory, popReactiveContext, pushReactiveContext } from "../globals";
+import { EffectCleanupStrategy } from "../types/DebounceCleanupStrategy";
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
@@ -12,8 +10,8 @@ import { EffectCleanupStrategy } from "./types/DebounceCleanupStrategy";
  * 
  * @param {number} debounceDuration The minimum number of milliseconds to wait before running the effect once a change has been detected. Setting the debounceDuration to `-1` will disable the debounce behavior entirely.
  */
- export const createEffect = ((mem: Record<string, EffectMemory>, nextAutoKey = 1) => (notifyCallback: (ctx: { get: Getter }) => void, config?: Partial<{ debounceDuration: number, key: string }>) => {
-  const key = String(config?.key || nextAutoKey++);
+ export const createEffect = ((mem: Record<string, EffectMemory>) => (notifyCallback: () => void, config?: Partial<{ debounceDuration: number, key: string }>) => {
+  const key = String(config?.key || getNextAutoGet());
   if (!(key in mem)) {
     mem[key] = {
       notifyTimeoutId: undefined,
@@ -25,23 +23,23 @@ import { EffectCleanupStrategy } from "./types/DebounceCleanupStrategy";
     mem[key].unsubscribeFunctions.forEach(unsubscribe => unsubscribe());
     mem[key].unsubscribeFunctions = [];
   };
-  const getDependency = <T,>(gettable: Gettable<T>) => {
-  	const unsubscribe = gettable.subscribe(key, () => {
-      if (mem[key].debounceDuration === -1) {
-        runNotify();
-        return;
-      };
-      mem[key].unsubscribeFunctions.push(unsubscribe);
-  		clearTimeout(mem[key].notifyTimeoutId);
-    	mem[key].notifyTimeoutId = setTimeout(runNotify, mem[key].debounceDuration);
-    });
-    return gettable.get();
-  };
   const runNotify = () => {
     unsubscribeFromDependencies();
-    notifyCallback({
-      get: getDependency,
+    pushReactiveContext({
+      registerDependency: (subscribe) => {
+        const unsubscribe = subscribe(key, () => {
+          if (mem[key].debounceDuration === -1) {
+            runNotify();
+            return;
+          };
+          clearTimeout(mem[key].notifyTimeoutId);
+          mem[key].notifyTimeoutId = setTimeout(runNotify, mem[key].debounceDuration);
+        });
+        mem[key].unsubscribeFunctions.push(unsubscribe);
+      }
     });
+    notifyCallback();
+    popReactiveContext();
   };
   runNotify();
 
@@ -49,11 +47,9 @@ import { EffectCleanupStrategy } from "./types/DebounceCleanupStrategy";
     if (mem[key] === undefined) {
       // Attempting to destroy effect more than once
       return;
-    }4
+    }
     const flush = () => {
-      notifyCallback({
-        get: gettable => gettable.get(),
-      });
+      notifyCallback();
     };
     const clean = () => {
       unsubscribeFromDependencies();

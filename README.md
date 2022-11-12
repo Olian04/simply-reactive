@@ -1,6 +1,6 @@
 # simply-reactive
 
-Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Recoiljs](https://recoiljs.org/) and [Solidjs](https://www.solidjs.com/).
+Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://www.solidjs.com/) and [Recoiljs](https://recoiljs.org/).
 
 ## Installation
 
@@ -21,32 +21,58 @@ __CDN:__
 
 * With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/btc25gnu/17/>
 
-## Usage
+## Documentation
+
+`Simply-reactive` provides three reactive primitives:
+
+* [Atoms](#atom) are single pieces of reactive state.
+* [Selectors](#selector) are pieces of derived reactive state.
+* [Effects](#effect) are side effects produced by changes to the reactive graph.
+
+`Simply-reactive` also provides two reactive composites:
+
+* [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
+* [Resources](#resource) are selectors specifically designed for IO bound operations.
+
+### Atom
+
+`Atom`s are single pieces of reactive state.
 
 ```ts
-const A = createAtom({
-  key: 'A',
-  default: 2,
+const Count = createAtom({
+  default: 0,
 });
+Count.set(1);
+console.log(`Count: ${Count.get()}`);
+```
 
-const B = createAtom({
-  key: 'B',
-  default: 3,
-});
+### Selector
 
-const C = createSelector({
-  key: 'C',
-  get: ({ get }) => {
-    const a = get(A);
-    const b = get(B);
-    return a + b;
+Selectors are pieces of derived reactive state.
+
+```ts
+const DoubleCount = createSelector({
+  get: () => {
+    return Count.get() * 2;
   }
 });
+console.log(`Count: ${DoubleCount.get()}`);
+```
 
-createEffect(({ get }) => {
-  const c = get(C);
-  console.log(c);
+### Effect
+
+Effects are side effects produced by changes to the reactive graph.
+
+```ts
+createEffect(() => {
+  console.log(`${DoubleCount.get()} is twice as big as ${Count.get()}`);
 });
 
-B.set(old => old * 2);
+setInterval(() => {
+  Count.set(c => c + 1);
+}, 1000);
 ```
+
+### Group
+
+### Resource

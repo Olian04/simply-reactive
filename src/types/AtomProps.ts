@@ -1,4 +1,4 @@
 export type AtomProps<T> = {
-  key: string;
+  key?: string;
   default: T;
 };
