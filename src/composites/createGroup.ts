@@ -4,7 +4,7 @@ import type { Group } from '../types/Group';
 
 import { getNextAutoKey } from '../globals';
 import { createAtom } from '../primitives/createAtom';
-import { createSelector } from '../api';
+import { createSelector } from '../primitives/createSelector';
 
 export const createGroup = <
   Id extends string | number,
