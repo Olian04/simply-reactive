@@ -1,6 +1,6 @@
 import type { Gettable } from './traits/Gettable';
 import type { Keyed } from './traits/Keyed';
-import type { Settable } from './traits/Settable';
 import type { Subscribable } from './traits/Subscribable';
+import type { Invalidatable } from './traits/Invalidatable';
 
-export type Atom<T> = Keyed & Gettable<T> & Settable<T> & Subscribable;
+export type Resource<T> = Keyed & Gettable<T> & Subscribable & Invalidatable;

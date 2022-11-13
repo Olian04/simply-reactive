@@ -1,3 +1,5 @@
+import type { Resource } from '../types/Resource';
+
 import { getNextAutoKey } from '../globals';
 import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../primitives/createSelector';
@@ -5,7 +7,7 @@ import { createSelector } from '../primitives/createSelector';
 export const createResource = <T extends Promise<unknown>>(props: {
   key?: string;
   get: () => T;
-}) => {
+}): Resource<T> => {
   const key = props.key || getNextAutoKey();
 
   const RequestInvalidator = createAtom({
