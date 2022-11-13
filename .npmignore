@@ -1,6 +1,10 @@
 .gitignore
+.editorconfig
 rollup.config.js
 tsconfig.json
+.vscode
+.circleci
 demos/
 node_modules/
 src/
+tests/
