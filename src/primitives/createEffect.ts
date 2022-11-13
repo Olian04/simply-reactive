@@ -1,6 +1,6 @@
 import type { EffectMemory } from "../types/EffectMemory";
 
-import { getNextAutoGet, globalMemory, popReactiveContext, pushReactiveContext } from "../globals";
+import { getNextAutoKey, globalMemory, popReactiveContext, pushReactiveContext } from "../globals";
 import { EffectCleanupStrategy } from "../types/DebounceCleanupStrategy";
 
 /**
@@ -11,7 +11,7 @@ import { EffectCleanupStrategy } from "../types/DebounceCleanupStrategy";
  * @param {number} debounceDuration The minimum number of milliseconds to wait before running the effect once a change has been detected. Setting the debounceDuration to `-1` will disable the debounce behavior entirely.
  */
  export const createEffect = ((mem: Record<string, EffectMemory>) => (notifyCallback: () => void, config?: Partial<{ debounceDuration: number, key: string }>) => {
-  const key = String(config?.key || getNextAutoGet());
+  const key = config?.key || getNextAutoKey();
   if (!(key in mem)) {
     mem[key] = {
       notifyTimeoutId: undefined,

@@ -22,4 +22,4 @@ export const pushReactiveContext = (context: ReactiveContext) =>
 export const popReactiveContext = () =>
   contextStack.pop();
 
-export const getNextAutoGet = ((nextAutoKey = 1) => () => nextAutoKey++)();
+export const getNextAutoKey = ((nextAutoKey = 1) => () => `_${nextAutoKey++}`)();

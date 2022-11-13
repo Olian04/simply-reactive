@@ -2,13 +2,13 @@ import type { Selector } from "../types/Selector";
 import type { SelectorMemory } from "../types/SelectorMemory";
 import type { SelectorProps } from "../types/SelectorProps";
 
-import { globalMemory, registerDependency, pushReactiveContext, popReactiveContext, getNextAutoGet } from "../globals";
+import { globalMemory, registerDependency, pushReactiveContext, popReactiveContext, getNextAutoKey } from "../globals";
 
 /**
  * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.
  */
 export const createSelector = ((mem: Record<string, SelectorMemory>) => <T>(props: SelectorProps<T>): Selector<T> => {
-  const key = String(props?.key || getNextAutoGet());
+  const key = props?.key || getNextAutoKey();
   const onDependencyChanged = () => {
     mem[key].isDirty = true;
     Object.values(mem[key].subscribers)

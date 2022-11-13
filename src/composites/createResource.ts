@@ -19,7 +19,8 @@ export const createResource = <T extends Promise<unknown>,>(props: {
 
   return {
     key: InnerSelector.key,
-    get: () => InnerSelector.get(),
+    get: InnerSelector.get,
+    subscribe: InnerSelector.subscribe,
     invalidate: () => RequestInvalidator.set(v => v + 1),
   }
 }

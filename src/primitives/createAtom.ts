@@ -2,13 +2,13 @@ import type { Atom } from "../types/Atom";
 import type { AtomMemory } from "../types/AtomMemory";
 import type { AtomProps } from "../types/AtomProps";
 
-import { getNextAutoGet, globalMemory, registerDependency } from "../globals";
+import { getNextAutoKey, globalMemory, registerDependency } from "../globals";
 
 /**
  * Returns an atomic piece of reactive state.
  */
 export const createAtom = ((mem: Record<string, AtomMemory>) => <T>(props: AtomProps<T>): Atom<T> => {
-  const key = String(props?.key || getNextAutoGet());
+  const key = props?.key || getNextAutoKey();
   if (!(key in mem)) {
     mem[key] = {
       value: props.default,
