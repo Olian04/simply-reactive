@@ -1,23 +1,19 @@
 /**
- * Determines how an effect should be cleaned up.
+ * Determines how to cleanup any queued changes or async operatons.
  */
 export const enum CleanupStrategy {
   /**
-   * Throw away and discard the effect.
-   * Any changes currently queued will be ignored.
+   * Throw away and discard any queued changes or async operatons.
    */
   Discard = 'discard',
 
   /**
-   * Throw away and discard the effect.
-   * Any changes currently queued will be evaluated by firing the effect as its cleaned up.
+   * Apply any queued changes synchronously, throw away any async operations.
    */
-  Flush = 'flush',
+  Flush = 'flush-sync',
 
   /**
-   * Debounce the effect once with a debounce duration of `0 ms`.
-   * Then throw away and discard the effect.
-   * Any changes currently queued will be evaluated by firing the effect as its cleaned up.
+   * Await and apply any queued changes and async operations.
    */
-  FlushDebounced = 'flush-debounced',
+  FlushAsync = 'flush-async',
 }

@@ -84,7 +84,7 @@ export const createEffect = (
           flush();
           clean();
           break;
-        case CleanupStrategy.FlushDebounced:
+        case CleanupStrategy.FlushAsync:
           clearTimeout(mem[key].notifyTimeoutId);
           setTimeout(() => {
             flush();
