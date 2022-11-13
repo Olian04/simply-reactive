@@ -1,8 +1,4 @@
-import { 
-  createAtom,
-  createEffect,
-  createSelector,
-} from '../src/api';
+import { createAtom, createEffect, createSelector } from "../src/api";
 
 const Count = createAtom({
   default: 0,
@@ -11,7 +7,7 @@ const Count = createAtom({
 const DoubleCount = createSelector({
   get: () => {
     return Count.get() * 2;
-  }
+  },
 });
 
 createEffect(() => {
@@ -19,6 +15,5 @@ createEffect(() => {
 });
 
 setInterval(() => {
-  Count.set(c => c + 1);
+  Count.set((c) => c + 1);
 }, 1000);
-
