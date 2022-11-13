@@ -3,7 +3,6 @@ import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
 import { createSelector } from '../../src/primitives/createSelector';
-import { visualizeDependencyGraph } from '../../src/utils/visualizeDependencyGraph';
 import { globalMemory } from '../../src/globals';
 
 describe('createSelector', () => {
@@ -82,11 +81,10 @@ describe('createSelector', () => {
       expect(Object.keys(globalMemory).length - before).to.equal(2, 'fourth');
 
       expect(A.get().get()).to.equal(5);
-      console.log(visualizeDependencyGraph());
     }
   });
 
-  it('should be able to subscribe to changes', async () => {
+  it('can be subscribed to', async () => {
     for (let i = 0; i < 10; i++) {
       const A = createAtom({
         default: 0,
@@ -105,10 +103,21 @@ describe('createSelector', () => {
       try {
         A.set(2);
         await awaitable;
-        expect(B.get()).to.equal(4);
       } catch {
-        expect.fail('Subscriber never notified change');
+        expect.fail('Never notified change');
       }
+      expect(B.get()).to.equal(4);
+    }
+  });
+
+  it('can be async', async () => {
+    for (let i = 0; i < 10; i++) {
+      const B = createSelector({
+        get: async () => 0,
+      });
+
+      expect(B.get()).to.be.instanceOf(Promise);
+      expect(await B.get()).to.equal(0);
     }
   });
 });

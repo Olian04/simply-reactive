@@ -89,7 +89,7 @@ describe('createAtom', () => {
     }
   });
 
-  it('should be able to subscribe to changes', async () => {
+  it('can be subscribed to', async () => {
     for (let i = 0; i < 10; i++) {
       const A = createAtom({
         default: 0,
@@ -105,10 +105,10 @@ describe('createAtom', () => {
       try {
         A.set(2);
         await awaitable;
-        expect(A.get()).to.equal(2);
       } catch {
-        expect.fail('Subscriber never notified change');
+        expect.fail('Never notified change');
       }
+      expect(A.get()).to.equal(2);
     }
   });
 });
