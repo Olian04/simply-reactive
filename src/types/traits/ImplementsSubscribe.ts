@@ -1,3 +1,3 @@
-export type Subscribable = {
+export type ImplementsSubscribe = {
   subscribe: (id: string, notifyCallback: () => void) => () => void;
 };

@@ -1,5 +1,7 @@
-import type { Gettable } from './traits/Gettable';
-import type { Keyed } from './traits/Keyed';
-import type { Subscribable } from './traits/Subscribable';
+import type { ImplementsGet } from './traits/ImplementsGet';
+import type { ImplementsKey } from './traits/ImplementsKey';
+import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
 
-export type Selector<T> = Keyed & Gettable<T> & Subscribable;
+export type Selector<T> = ImplementsKey &
+  ImplementsGet<T> &
+  ImplementsSubscribe;

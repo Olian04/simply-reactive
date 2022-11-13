@@ -1,6 +1,9 @@
-import type { Gettable } from './traits/Gettable';
-import type { Keyed } from './traits/Keyed';
-import type { Subscribable } from './traits/Subscribable';
-import type { Invalidatable } from './traits/Invalidatable';
+import type { ImplementsGet } from './traits/ImplementsGet';
+import type { ImplementsKey } from './traits/ImplementsKey';
+import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
+import type { ImplementsInvalidate } from './traits/ImplementsInvalidate';
 
-export type Resource<T> = Keyed & Gettable<T> & Subscribable & Invalidatable;
+export type Resource<T> = ImplementsKey &
+  ImplementsGet<T> &
+  ImplementsSubscribe &
+  ImplementsInvalidate;

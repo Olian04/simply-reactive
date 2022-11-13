@@ -1,6 +1,9 @@
-import type { Gettable } from './traits/Gettable';
-import type { Keyed } from './traits/Keyed';
-import type { Settable } from './traits/Settable';
-import type { Subscribable } from './traits/Subscribable';
+import type { ImplementsGet } from './traits/ImplementsGet';
+import type { ImplementsKey } from './traits/ImplementsKey';
+import type { ImplementsSet } from './traits/ImplementsSet';
+import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
 
-export type Atom<T> = Keyed & Gettable<T> & Settable<T> & Subscribable;
+export type Atom<T> = ImplementsKey &
+  ImplementsGet<T> &
+  ImplementsSet<T> &
+  ImplementsSubscribe;
