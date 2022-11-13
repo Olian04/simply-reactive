@@ -13,14 +13,14 @@ jobs:
     steps:
       - checkout
       - run:
-        command: npm install --force
-        name: Install Dependencies
+          command: npm install --force
+          name: Install Dependencies
       - run:
-        command: npm run test
-        name: Run tests
+          command: npm run test
+          name: Run tests
       - run:
-        command: npm run build
-        name: Build app
+          command: npm run build
+          name: Build app
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
