@@ -62,6 +62,7 @@ export const createSelector = (
         };
       },
     };
+    api.get(); // Run get eagerly on creation in order to register the selectors dependencies
     return api;
   }
 )(globalMemory as Record<string, SelectorMemory>);
