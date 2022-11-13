@@ -1,6 +1,6 @@
 .gitignore
 .editorconfig
-rollup.config.js
+rollup.config.mjs
 tsconfig.json
 .vscode
 .circleci
