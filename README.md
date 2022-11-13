@@ -18,7 +18,7 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 **CDN:**
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive"></script>
 <script>
   const { createAtom, createSelector, createEffect } = simplyReactive;
 </script>
