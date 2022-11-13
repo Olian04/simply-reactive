@@ -11,7 +11,8 @@
     "build": "npm run build:node && npm run build:web",
     "build:node": "rimraf ./dist && tsc",
     "build:web": "rimraf ./cdn && rollup --config",
-    "demo:count": "ts-node ./demos/count.ts"
+    "demo:count": "ts-node ./demos/count.ts",
+    "demo:groups": "ts-node ./demos/groups.ts"
   },
   "keywords": [
     "state management",
