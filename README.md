@@ -4,35 +4,36 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 
 ## Installation
 
-__NPM:__
+**NPM:**
 
 [`npm i simply-reactive`](https://www.npmjs.com/package/simply-reactive)
 
-__CDN:__
+**CDN:**
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
 <script>
-  const { createAtom, createSelector, createResource, createEffect } = simplyReactive;
+  const { createAtom, createSelector, createResource, createEffect } =
+    simplyReactive;
 </script>
 ```
 
 ## Demos
 
-* With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/btc25gnu/17/>
+- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/btc25gnu/17/>
 
 ## Documentation
 
 `Simply-reactive` provides three reactive primitives:
 
-* [Atoms](#atom) are single pieces of reactive state.
-* [Selectors](#selector) are pieces of derived reactive state.
-* [Effects](#effect) are side effects produced by changes to the reactive graph.
+- [Atoms](#atom) are single pieces of reactive state.
+- [Selectors](#selector) are pieces of derived reactive state.
+- [Effects](#effect) are side effects produced by changes to the reactive graph.
 
 `Simply-reactive` also provides two reactive composites:
 
-* [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
-* [Resources](#resource) are selectors specifically designed for IO bound operations.
+- [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
+- [Resources](#resource) are selectors specifically designed for IO bound operations.
 
 ### Atom
 
@@ -54,7 +55,7 @@ Selectors are pieces of derived reactive state.
 const DoubleCount = createSelector({
   get: () => {
     return Count.get() * 2;
-  }
+  },
 });
 console.log(`Count: ${DoubleCount.get()}`);
 ```
@@ -69,7 +70,7 @@ createEffect(() => {
 });
 
 setInterval(() => {
-  Count.set(c => c + 1);
+  Count.set((c) => c + 1);
 }, 1000);
 ```
 

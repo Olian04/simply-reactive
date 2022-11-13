@@ -5,4 +5,4 @@ export type Atom<T> = {
   get: () => T;
   set: (valueOrFunction: T | ((old: T) => T)) => void;
   subscribe: SubscribeFunction;
-}
+};

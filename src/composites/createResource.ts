@@ -1,14 +1,14 @@
 import { createAtom } from "../primitives/createAtom";
 import { createSelector } from "../primitives/createSelector";
 
-export const createResource = <T extends Promise<unknown>,>(props: {
-  key?: string,
-  get: () => T
+export const createResource = <T extends Promise<unknown>>(props: {
+  key?: string;
+  get: () => T;
 }) => {
   const RequestInvalidator = createAtom({
     default: 0,
   });
-  
+
   const InnerSelector = createSelector<T>({
     key: props.key,
     get: () => {
@@ -21,6 +21,6 @@ export const createResource = <T extends Promise<unknown>,>(props: {
     key: InnerSelector.key,
     get: InnerSelector.get,
     subscribe: InnerSelector.subscribe,
-    invalidate: () => RequestInvalidator.set(v => v + 1),
-  }
-}
+    invalidate: () => RequestInvalidator.set((v) => v + 1),
+  };
+};

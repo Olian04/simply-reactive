@@ -6,15 +6,13 @@ import { globalMemory } from "../globals";
  * @see [Mermaid](https://mermaid-js.github.io)
  */
 export const visualizeDependencyGraph = () => {
-  const mermaidGraph = [
-    'graph TD;'
-  ];
+  const mermaidGraph = ["graph TD;"];
   for (let [key, mem] of Object.entries(globalMemory)) {
-    if ('subscribers' in mem) {
+    if ("subscribers" in mem) {
       for (let subKey of Object.keys(mem.subscribers)) {
         mermaidGraph.push(`${key}-->${subKey};`);
       }
     }
   }
-  return mermaidGraph.join('\n\t');
+  return mermaidGraph.join("\n\t");
 };
