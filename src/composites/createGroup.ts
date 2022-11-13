@@ -12,7 +12,7 @@ export const createGroup = <
   Value extends ImplementsSubscribe & ImplementsGet<T>
 >(props: {
   key?: string;
-  getDefault: () => Value;
+  getDefault: (id: Id) => Value;
 }): Group<Id, Value> => {
   const key = props.key || getNextAutoKey();
 
@@ -38,7 +38,7 @@ export const createGroup = <
     find: (id) => {
       if (!Container.get()[id]) {
         Container.set((container) => {
-          container[id] = props.getDefault();
+          container[id] = props.getDefault(id);
           return container;
         });
       }
