@@ -1,3 +1,10 @@
+[![](https://img.shields.io/npm/v/simply-reactive)](https://www.npmjs.com/package/simply-reactive)
+![](https://img.shields.io/npm/types/simply-reactive)
+[![](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
+[![](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
+[![](https://img.shields.io/circleci/build/github/Olian04/simply-reactive/main?label=test%20%26%20build)](https://app.circleci.com/pipelines/github/Olian04/simply-reactive)
+[![](https://img.shields.io/npm/l/simply-reactive)](/LICENSE)
+
 # simply-reactive
 
 Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://www.solidjs.com/) and [Recoiljs](https://recoiljs.org/).
@@ -13,8 +20,7 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 ```html
 <script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
 <script>
-  const { createAtom, createSelector, createResource, createEffect } =
-    simplyReactive;
+  const { createAtom, createSelector, createEffect } = simplyReactive;
 </script>
 ```
 
