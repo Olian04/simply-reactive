@@ -3,7 +3,7 @@
 [![](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
 [![](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
 [![](https://img.shields.io/circleci/build/github/Olian04/simply-reactive/main?label=test%20%26%20build)](https://app.circleci.com/pipelines/github/Olian04/simply-reactive)
-[![](https://img.shields.io/npm/l/simply-reactive)](/LICENSE)
+[![](https://img.shields.io/npm/l/simply-reactive)](./LICENSE)
 
 # simply-reactive
 
@@ -26,6 +26,8 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 
 ## Demos
 
+- Counting with Atoms & Selectors: [demos/count.ts](./demos/count.ts)
+- Counting with Groups: [demos/groups.ts](./demos/groups.ts)
 - With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/mx1h2ctd/13/>
 
 ## Documentation
@@ -85,7 +87,25 @@ setInterval(() => {
 Groups are atoms containing collections of reactive primitives or other reactive composites.
 
 ```ts
-// WIP
+const CountGroup = createGroup({
+  getDefault: () =>
+    createAtom({
+      default: 0,
+    }),
+});
+
+const DoubleCountGroup = createGroup({
+  getDefault: (index) =>
+    createSelector({
+      get: () => CountGroup.find(index).get() * 2,
+    }),
+});
+
+CountGroup.find(0).set(5);
+CountGroup.find(1).set(2);
+console.log(DoubleCountGroup.find(0).get()); // 10
+console.log(DoubleCountGroup.find(1).get()); // 4
+console.log(DoubleCountGroup.find(2).get()); // 0
 ```
 
 ### Resource
