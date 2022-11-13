@@ -7,7 +7,7 @@
 
 # simply-reactive
 
-Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://www.solidjs.com/) and [Recoiljs](https://recoiljs.org/).
+Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://github.com/solidjs/solid) and [Recoiljs](https://github.com/facebookexperimental/Recoil).
 
 ## Installation
 
