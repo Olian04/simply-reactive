@@ -26,7 +26,7 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 
 ## Demos
 
-- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/btc25gnu/17/>
+- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/mx1h2ctd/13/>
 
 ## Documentation
 
