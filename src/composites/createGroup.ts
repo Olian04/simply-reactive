@@ -7,9 +7,8 @@ import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../api';
 
 export const createGroup = <
-  T,
   Id extends string | number,
-  Value extends ImplementsSubscribe & ImplementsGet<T>
+  Value extends ImplementsSubscribe & ImplementsGet<unknown>
 >(props: {
   key?: string;
   getDefault: (id: Id) => Value;
