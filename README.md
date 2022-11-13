@@ -39,11 +39,11 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 `Simply-reactive` also provides two reactive composites:
 
 - [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
-- [Resources](#resource) are selectors specifically designed for IO bound operations.
+- [Resources](#resource) are selectors specifically optimized for data fetching.
 
 ### Atom
 
-`Atom`s are single pieces of reactive state.
+Atoms are single pieces of reactive state.
 
 ```ts
 const Count = createAtom({
@@ -82,4 +82,23 @@ setInterval(() => {
 
 ### Group
 
+Groups are atoms containing collections of reactive primitives or other reactive composites.
+
+```ts
+// WIP
+```
+
 ### Resource
+
+Resources are selectors specifically optimized for data fetching.
+
+```ts
+const Data = createResource({
+  get: async () => fetch(...),
+});
+
+console.log(`Data after first load ${await Data.get()}`);
+
+Data.invalidate();
+console.log(`Data after second load ${await Data.get()}`);
+```
