@@ -1,8 +1,8 @@
-import { ReactiveContext } from "./types/ReactiveContext";
-import type { AtomMemory } from "./types/AtomMemory";
-import type { EffectMemory } from "./types/EffectMemory";
-import type { SelectorMemory } from "./types/SelectorMemory";
-import { SubscribeFunction } from "./types/SubscribeFunction";
+import { ReactiveContext } from './types/ReactiveContext';
+import type { AtomMemory } from './types/AtomMemory';
+import type { EffectMemory } from './types/EffectMemory';
+import type { SelectorMemory } from './types/SelectorMemory';
+import { SubscribeFunction } from './types/SubscribeFunction';
 
 export const globalMemory: Record<
   string,

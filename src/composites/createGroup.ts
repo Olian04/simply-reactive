@@ -1,3 +1,3 @@
 export const createGroup = () => {
-  throw new Error("Not yet implemented");
+  throw new Error('Not yet implemented');
 };

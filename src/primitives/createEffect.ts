@@ -1,12 +1,12 @@
-import type { EffectMemory } from "../types/EffectMemory";
+import type { EffectMemory } from '../types/EffectMemory';
 
 import {
   getNextAutoKey,
   globalMemory,
   popReactiveContext,
   pushReactiveContext,
-} from "../globals";
-import { CleanupStrategy } from "../types/CleanupStrategy";
+} from '../globals';
+import { CleanupStrategy } from '../types/CleanupStrategy';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.

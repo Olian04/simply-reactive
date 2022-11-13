@@ -1,8 +1,8 @@
-import type { Atom } from "../types/Atom";
-import type { AtomMemory } from "../types/AtomMemory";
-import type { AtomProps } from "../types/AtomProps";
+import type { Atom } from '../types/Atom';
+import type { AtomMemory } from '../types/AtomMemory';
+import type { AtomProps } from '../types/AtomProps';
 
-import { getNextAutoKey, globalMemory, registerDependency } from "../globals";
+import { getNextAutoKey, globalMemory, registerDependency } from '../globals';
 
 /**
  * Returns an atomic piece of reactive state.
@@ -20,7 +20,7 @@ export const createAtom = (
     const api = {
       key: key,
       set: (valueOrFunction: T | ((oldValue: T) => T)) => {
-        if (typeof valueOrFunction === "function") {
+        if (typeof valueOrFunction === 'function') {
           const func = valueOrFunction as (oldValue: T) => T;
           mem[key].value = func(mem[key].value as T);
         } else {

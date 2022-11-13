@@ -1,6 +1,6 @@
-import type { Selector } from "../types/Selector";
-import type { SelectorMemory } from "../types/SelectorMemory";
-import type { SelectorProps } from "../types/SelectorProps";
+import type { Selector } from '../types/Selector';
+import type { SelectorMemory } from '../types/SelectorMemory';
+import type { SelectorProps } from '../types/SelectorProps';
 
 import {
   globalMemory,
@@ -8,7 +8,7 @@ import {
   pushReactiveContext,
   popReactiveContext,
   getNextAutoKey,
-} from "../globals";
+} from '../globals';
 
 /**
  * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.

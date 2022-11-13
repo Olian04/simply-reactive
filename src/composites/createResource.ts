@@ -1,5 +1,5 @@
-import { createAtom } from "../primitives/createAtom";
-import { createSelector } from "../primitives/createSelector";
+import { createAtom } from '../primitives/createAtom';
+import { createSelector } from '../primitives/createSelector';
 
 export const createResource = <T extends Promise<unknown>>(props: {
   key?: string;

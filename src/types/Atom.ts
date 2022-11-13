@@ -1,4 +1,4 @@
-import { SubscribeFunction } from "./SubscribeFunction";
+import { SubscribeFunction } from './SubscribeFunction';
 
 export type Atom<T> = {
   key: string;
