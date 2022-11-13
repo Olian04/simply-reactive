@@ -6,6 +6,7 @@
   "types": "dist/api.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
+    "test": "mocha  --recursive -r ts-node/register 'tests/**/*.test.ts' ",
     "build": "npm run build:node && npm run build:web",
     "build:node": "rimraf ./dist && tsc",
     "build:web": "rimraf ./cdn && rollup --config",
@@ -26,10 +27,14 @@
   },
   "homepage": "https://github.com/Olian04/simply-reactive#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.0",
     "@types/es6-promise": "3.3.0",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "@types/typescript": "^2.0.0",
+    "chai": "^4.3.7",
+    "mocha": "^10.1.0",
     "rimraf": "^3.0.2",
     "rollup": "^3.3.0",
     "rollup-plugin-commonjs": "^10.1.0",
