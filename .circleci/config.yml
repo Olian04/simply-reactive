@@ -6,16 +6,27 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.3
 
+jobs:
+  build_and_test:
+    docker:
+      - image: cimg/node:18.10.0
+    steps:
+      - checkout
+      - run:
+        command: npm install --force
+        name Install Dependencies
+      - run:
+          command: npm run test
+          name: Run tests
+      - run:
+          command: npm run build
+          name: Build app
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  ci: # This is the name of the workflow, feel free to change it to better match your workflow.
+  run_tests: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
-    jobs:
-      - node/run:
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
-          version: '18.10'
 
-          npm-run: npm install --force && npm run test
+    jobs:
+      - build_and_test
