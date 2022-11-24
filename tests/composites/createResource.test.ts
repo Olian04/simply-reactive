@@ -2,25 +2,20 @@ import { describe, it, afterEach } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
+import { createEffect } from '../../src/primitives/createEffect';
 import { createResource } from '../../src/composites/createResource';
-import { globalMemory } from '../../src/globals';
+import { getAllLivingMemory } from '../../src/globals';
 
 describe('createResource', () => {
-  afterEach(() => {
-    Object.keys(globalMemory).forEach((key) => {
-      delete globalMemory[key];
-    });
-  });
-
   it('should create exactly two memory entries per resource', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createResource({
         get: async () => 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(2);
     }
@@ -28,7 +23,7 @@ describe('createResource', () => {
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createResource({
         get: async () => 0,
@@ -38,7 +33,7 @@ describe('createResource', () => {
         get: async () => 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(2);
     }
@@ -54,7 +49,10 @@ describe('createResource', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        B.subscribe('test', resolve);
+        createEffect(async () => {
+          if ((await B.get()) === 0) return;
+          resolve();
+        });
         setTimeout(() => {
           reject(new Error('Timeout'));
         }, 0);
@@ -78,7 +76,10 @@ describe('createResource', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        B.subscribe('test', resolve);
+        createEffect(async () => {
+          if ((await B.get()) === c) return;
+          resolve();
+        });
         setTimeout(() => {
           reject(new Error('Timeout'));
         }, 0);

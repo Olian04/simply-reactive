@@ -1,8 +1,3 @@
 export type ReactiveContext = {
-  registerDependency: (subscribe: SubscribeFunction) => void;
+  registerDependency: (subscribe: (key: string) => void) => void;
 };
-
-export type SubscribeFunction = (
-  key: string,
-  notifyCallback: () => void
-) => () => void;

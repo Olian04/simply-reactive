@@ -1,5 +1,7 @@
-export type EffectMemory = {
+import { MemoryBase } from './MemoryBase';
+
+export type EffectMemory = MemoryBase & {
   notifyTimeoutId: NodeJS.Timeout | number | undefined;
   debounceDuration: number;
-  unsubscribeFunctions: (() => void)[];
+  onDependencyChange: (() => void) | null;
 };

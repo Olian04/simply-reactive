@@ -1,3 +1,3 @@
 export type ImplementsSubscribe = {
-  subscribe: (id: string, notifyCallback: () => void) => () => void;
+  subscribe: (id: string) => void;
 };

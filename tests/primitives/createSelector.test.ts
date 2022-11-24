@@ -2,25 +2,20 @@ import { describe, it, afterEach } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
+import { createEffect } from '../../src/primitives/createEffect';
 import { createSelector } from '../../src/primitives/createSelector';
-import { globalMemory } from '../../src/globals';
+import { getAllLivingMemory } from '../../src/globals';
 
 describe('createSelector', () => {
-  afterEach(() => {
-    Object.keys(globalMemory).forEach((key) => {
-      delete globalMemory[key];
-    });
-  });
-
   it('should create exactly one memory entry per selector', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createSelector({
         get: () => 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(1);
     }
@@ -28,7 +23,7 @@ describe('createSelector', () => {
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createSelector({
         get: () => 0,
@@ -38,7 +33,7 @@ describe('createSelector', () => {
         get: () => 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(1);
     }
@@ -53,7 +48,7 @@ describe('createSelector', () => {
         default: 1,
       });
 
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createSelector({
         get: () => {
@@ -66,19 +61,31 @@ describe('createSelector', () => {
       });
 
       A.get().get();
-      expect(Object.keys(globalMemory).length - before).to.equal(2, 'first');
+      expect(Object.keys(getAllLivingMemory()).length - before).to.equal(
+        2,
+        'first'
+      );
 
       Inner.set(2);
       A.get().get();
-      expect(Object.keys(globalMemory).length - before).to.equal(2, 'second');
+      expect(Object.keys(getAllLivingMemory()).length - before).to.equal(
+        2,
+        'second'
+      );
 
       Outer.set(2);
       A.get().get();
-      expect(Object.keys(globalMemory).length - before).to.equal(2, 'third');
+      expect(Object.keys(getAllLivingMemory()).length - before).to.equal(
+        2,
+        'third'
+      );
 
       Inner.set(3);
       A.get().get();
-      expect(Object.keys(globalMemory).length - before).to.equal(2, 'fourth');
+      expect(Object.keys(getAllLivingMemory()).length - before).to.equal(
+        2,
+        'fourth'
+      );
 
       expect(A.get().get()).to.equal(5);
     }
@@ -94,7 +101,10 @@ describe('createSelector', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        B.subscribe('test', resolve);
+        createEffect(() => {
+          if (B.get() === 0) return;
+          resolve();
+        });
         setTimeout(() => {
           reject(new Error('Timeout'));
         }, 0);

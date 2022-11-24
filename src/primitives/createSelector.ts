@@ -3,66 +3,52 @@ import type { SelectorMemory } from '../types/SelectorMemory';
 import type { SelectorProps } from '../types/SelectorProps';
 
 import {
-  globalMemory,
+  getMemoryOrDefault,
   registerDependency,
   pushReactiveContext,
   popReactiveContext,
   getNextAutoKey,
+  unsubscribeFromAll,
+  notifyLivingSubscribers,
 } from '../globals';
 
 /**
  * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.
  */
-export const createSelector = (
-  (mem: Record<string, SelectorMemory>) =>
-  <T>(props: SelectorProps<T>): Selector<T> => {
-    const key = props?.key || getNextAutoKey();
-    const onDependencyChanged = () => {
-      mem[key].isDirty = true;
-      Object.values(mem[key].subscribers).forEach((notifyCallback) =>
-        notifyCallback()
-      );
-    };
-    if (!(key in mem)) {
-      mem[key] = {
-        value: null,
-        isDirty: true,
-        subscribers: {},
-        unsubscribeFunctions: [],
-      };
-    }
-    const api = {
-      key: key,
-      get: () => {
-        registerDependency(api.subscribe);
+export const createSelector = <T>(props: SelectorProps<T>): Selector<T> => {
+  const key = props?.key || getNextAutoKey();
+  const mem = getMemoryOrDefault<SelectorMemory>(key, () => ({
+    key,
+    value: null,
+    isDirty: true,
+    subscribers: new Set<string>(),
+  }));
 
-        if (mem[key].isDirty) {
-          // Clean up previous dependencies
-          mem[key].unsubscribeFunctions.forEach((unsubscribe) => unsubscribe());
-          mem[key].unsubscribeFunctions = [];
+  const api = {
+    key,
+    get: () => {
+      registerDependency(api.subscribe);
 
-          // Collect new dependencies and calculate new value
-          pushReactiveContext({
-            registerDependency: (subscribe) => {
-              const unsubscribe = subscribe(key, onDependencyChanged);
-              mem[key].unsubscribeFunctions.push(unsubscribe);
-            },
-          });
-          mem[key].value = props.get();
-          mem[key].isDirty = false;
-          popReactiveContext();
-        }
+      if (mem.isDirty) {
+        unsubscribeFromAll(key);
 
-        return mem[key].value as T;
-      },
-      subscribe: (id: string, notifyCallback: () => void) => {
-        mem[key].subscribers[id] = notifyCallback;
-        return () => {
-          delete mem[key].subscribers[id];
-        };
-      },
-    };
-    api.get(); // Run get eagerly on creation in order to register the selectors dependencies
-    return api;
-  }
-)(globalMemory as Record<string, SelectorMemory>);
+        pushReactiveContext({
+          registerDependency: (subscribe) => {
+            subscribe(key);
+          },
+        });
+
+        mem.value = props.get();
+        mem.isDirty = false;
+        popReactiveContext();
+      }
+
+      return mem.value as T;
+    },
+    subscribe: (id: string) => {
+      mem.subscribers.add(id);
+    },
+  };
+
+  return api;
+};

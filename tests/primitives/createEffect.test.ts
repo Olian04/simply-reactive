@@ -1,40 +1,43 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { createEffect } from '../../src/primitives/createEffect';
-import { globalMemory } from '../../src/globals';
+import { getAllLivingMemory } from '../../src/globals';
 
 describe('createEffect', () => {
-  afterEach(() => {
-    Object.keys(globalMemory).forEach((key) => {
-      delete globalMemory[key];
-    });
-  });
-
   it('should create exactly one memory entry per effect', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const start = Object.keys(getAllLivingMemory()).length;
 
-      const key = `effect_${i}`;
-      createEffect(() => {}, { key });
+      const destroy = createEffect(() => {});
 
-      const after = Object.keys(globalMemory).length;
+      const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(1);
+      destroy();
+
+      const afterDestruction = Object.keys(getAllLivingMemory()).length;
+
+      expect(afterCreation - start).to.equal(1);
+      expect(afterDestruction - start).to.equal(0);
     }
   });
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const start = Object.keys(getAllLivingMemory()).length;
 
       const key = `effect_${i}`;
       createEffect(() => {}, { key });
-      createEffect(() => {}, { key });
+      const destroy = createEffect(() => {}, { key });
 
-      const after = Object.keys(globalMemory).length;
+      const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(1);
+      destroy();
+
+      const afterDestruction = Object.keys(getAllLivingMemory()).length;
+
+      expect(afterCreation - start).to.equal(1);
+      expect(afterDestruction - start).to.equal(0);
     }
   });
 });
