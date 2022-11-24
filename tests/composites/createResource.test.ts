@@ -55,7 +55,7 @@ describe('createResource', () => {
         });
         setTimeout(() => {
           reject(new Error('Timeout'));
-        }, 0);
+        }, 100);
       });
 
       try {
@@ -82,7 +82,7 @@ describe('createResource', () => {
         });
         setTimeout(() => {
           reject(new Error('Timeout'));
-        }, 0);
+        }, 100);
       });
 
       try {

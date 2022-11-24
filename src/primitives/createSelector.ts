@@ -27,19 +27,13 @@ export const createSelector = <T>(props: SelectorProps<T>): Selector<T> => {
   const api = {
     key,
     get: () => {
-      registerDependency(api.subscribe);
+      registerDependency(key);
 
       if (mem.isDirty) {
         unsubscribeFromAll(key);
-
-        pushReactiveContext({
-          registerDependency: (subscribe) => {
-            subscribe(key);
-          },
-        });
-
-        mem.value = props.get();
+        pushReactiveContext(key);
         mem.isDirty = false;
+        mem.value = props.get();
         popReactiveContext();
       }
 

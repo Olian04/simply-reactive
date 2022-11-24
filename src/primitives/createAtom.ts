@@ -5,6 +5,7 @@ import type { AtomProps } from '../types/AtomProps';
 import {
   getMemoryOrDefault,
   getNextAutoKey,
+  notifyLivingSubscribers,
   registerDependency,
 } from '../globals';
 
@@ -28,12 +29,10 @@ export const createAtom = <T>(props: AtomProps<T>): Atom<T> => {
       } else {
         mem.value = valueOrFunction;
       }
-      Object.values(mem.subscribers).forEach((notifyCallback) =>
-        notifyCallback()
-      );
+      notifyLivingSubscribers(key);
     },
     get: () => {
-      registerDependency(api.subscribe);
+      registerDependency(key);
       return mem.value as T;
     },
     subscribe: (id: string) => {

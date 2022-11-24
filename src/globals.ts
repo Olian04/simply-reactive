@@ -1,4 +1,3 @@
-import type { ReactiveContext } from './types/ReactiveContext';
 import { MemoryBase } from './types/MemoryBase';
 import { SelectorMemory } from './types/SelectorMemory';
 import { AtomMemory } from './types/AtomMemory';
@@ -28,6 +27,10 @@ export const getMemoryOrDefault = <V extends MemoryBase>(
 export const setMemory = <V extends MemoryBase>(key: string, value: V) => {
   globalMemoryCleanupRegistry.register(value, key);
   globalMemory.set(key, new WeakRef(value));
+};
+
+export const deleteMemory = (key: string) => {
+  globalMemory.delete(key);
 };
 
 const getMemory = <T extends MemoryBase>(key: string) => {
@@ -69,18 +72,14 @@ export const getAllLivingMemory = <T extends MemoryBase>(): T[] => {
     .filter((maybeVal) => maybeVal !== undefined) as T[];
 };
 
-const rootContext: ReactiveContext = {
-  registerDependency: () => {},
-};
-const contextStack: ReactiveContext[] = [rootContext];
-
-export const registerDependency = (subscribe: (key: string) => void) =>
-  contextStack[contextStack.length - 1].registerDependency(subscribe);
-
-export const pushReactiveContext = (context: ReactiveContext) =>
-  contextStack.push(context);
-
+const contextStack: string[] = [];
+export const pushReactiveContext = (key: string) => contextStack.push(key);
 export const popReactiveContext = () => contextStack.pop();
+export const registerDependency = (key: string) => {
+  const subKey = contextStack[contextStack.length - 1];
+  const mem = getMemory<AtomMemory | SelectorMemory>(key);
+  mem?.subscribers.add(subKey);
+};
 
 export const getNextAutoKey = (
   (nextAutoKey = 1) =>

@@ -1,6 +1,7 @@
 import type { EffectMemory } from '../types/EffectMemory';
 
 import {
+  deleteMemory,
   getMemoryOrDefault,
   getNextAutoKey,
   popReactiveContext,
@@ -36,9 +37,7 @@ export const createEffect = (
 
   const runNotify = () => {
     unsubscribeFromAll(key);
-    pushReactiveContext({
-      registerDependency: (subscribe) => subscribe(key),
-    });
+    pushReactiveContext(key);
     notifyCallback();
     popReactiveContext();
   };
@@ -53,6 +52,7 @@ export const createEffect = (
 
     unsubscribeFromAll(key);
     clearTimeout(mem.notifyTimeoutId);
+    deleteMemory(key);
 
     mem.notifyTimeoutId = undefined;
     mem.onDependencyChange = null;

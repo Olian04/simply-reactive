@@ -9,7 +9,8 @@ describe('createEffect', () => {
     for (let i = 0; i < 10; i++) {
       const start = Object.keys(getAllLivingMemory()).length;
 
-      const destroy = createEffect(() => {});
+      const key = `effect_${i}`;
+      const destroy = createEffect(() => {}, { key });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
 

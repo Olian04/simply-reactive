@@ -107,7 +107,7 @@ describe('createSelector', () => {
         });
         setTimeout(() => {
           reject(new Error('Timeout'));
-        }, 0);
+        }, 100);
       });
 
       try {
