@@ -59,11 +59,31 @@ export const notifyLivingSubscribers = (key: string) => {
   }
 };
 
-export const unsubscribeFromAll = (key: string) => {
+export const subscribeTo = (key: string, depKey: string) => {
   const mem = getMemory<AtomMemory | SelectorMemory>(key);
   if (!mem) return;
   if (!('subscribers' in mem)) return;
-  mem.subscribers = new Set<string>();
+
+  const depMem = getMemory<AtomMemory | SelectorMemory>(depKey);
+  if (!depMem) return;
+  if (!('dependencies' in depMem)) return;
+
+  mem.subscribers.add(depKey);
+  depMem.dependencies.add(key);
+};
+
+export const unsubscribeAllDependencies = (key: string) => {
+  const mem = getMemory<AtomMemory | SelectorMemory>(key);
+  if (!mem) return;
+  if (!('dependencies' in mem)) return;
+
+  for (let depKey of mem.dependencies.values()) {
+    const depMem = getMemory<AtomMemory | SelectorMemory>(depKey);
+    if (!depMem) return;
+    if (!('subscribers' in depMem)) return;
+    depMem.subscribers.delete(key);
+  }
+  mem.dependencies.clear();
 };
 
 export const getAllLivingMemory = <T extends MemoryBase>(): T[] => {
@@ -75,11 +95,8 @@ export const getAllLivingMemory = <T extends MemoryBase>(): T[] => {
 const contextStack: string[] = [];
 export const pushReactiveContext = (key: string) => contextStack.push(key);
 export const popReactiveContext = () => contextStack.pop();
-export const registerDependency = (key: string) => {
-  const subKey = contextStack[contextStack.length - 1];
-  const mem = getMemory<AtomMemory | SelectorMemory>(key);
-  mem?.subscribers.add(subKey);
-};
+export const registerDependency = (key: string) =>
+  subscribeTo(key, contextStack[contextStack.length - 1]);
 
 export const getNextAutoKey = (
   (nextAutoKey = 1) =>

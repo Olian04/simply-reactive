@@ -8,8 +8,7 @@ import {
   pushReactiveContext,
   popReactiveContext,
   getNextAutoKey,
-  unsubscribeFromAll,
-  notifyLivingSubscribers,
+  unsubscribeAllDependencies,
 } from '../globals';
 
 /**
@@ -22,6 +21,7 @@ export const createSelector = <T>(props: SelectorProps<T>): Selector<T> => {
     value: null,
     isDirty: true,
     subscribers: new Set<string>(),
+    dependencies: new Set<string>(),
   }));
 
   const api = {
@@ -30,7 +30,7 @@ export const createSelector = <T>(props: SelectorProps<T>): Selector<T> => {
       registerDependency(key);
 
       if (mem.isDirty) {
-        unsubscribeFromAll(key);
+        unsubscribeAllDependencies(key);
         pushReactiveContext(key);
         mem.isDirty = false;
         mem.value = props.get();

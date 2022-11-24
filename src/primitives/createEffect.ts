@@ -6,7 +6,7 @@ import {
   getNextAutoKey,
   popReactiveContext,
   pushReactiveContext,
-  unsubscribeFromAll,
+  unsubscribeAllDependencies,
 } from '../globals';
 
 /**
@@ -17,7 +17,7 @@ import {
  * @param {number} debounceDuration The minimum number of milliseconds to wait before running the effect once a change has been detected. Setting the debounceDuration to `-1` will disable the debounce behavior entirely.
  */
 export const createEffect = (
-  notifyCallback: () => void,
+  notifyCallback: () => void | Promise<void>,
   config?: Partial<{ debounceDuration: number; key: string }>
 ) => {
   const key = config?.key || getNextAutoKey();
@@ -25,6 +25,7 @@ export const createEffect = (
     key,
     notifyTimeoutId: undefined,
     debounceDuration: config?.debounceDuration ?? 0,
+    dependencies: new Set<string>(),
     onDependencyChange: () => {
       if (mem.debounceDuration === -1) {
         runNotify();
@@ -35,10 +36,10 @@ export const createEffect = (
     },
   }));
 
-  const runNotify = () => {
-    unsubscribeFromAll(key);
+  const runNotify = async () => {
+    unsubscribeAllDependencies(key);
     pushReactiveContext(key);
-    notifyCallback();
+    await Promise.resolve(notifyCallback());
     popReactiveContext();
   };
 
@@ -50,7 +51,7 @@ export const createEffect = (
       return;
     }
 
-    unsubscribeFromAll(key);
+    unsubscribeAllDependencies(key);
     clearTimeout(mem.notifyTimeoutId);
     deleteMemory(key);
 
