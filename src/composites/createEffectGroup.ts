@@ -10,22 +10,33 @@ export const createEffectGroup = (
 ): EffectGroup => {
   const key = config?.key || getNextAutoKey();
 
-  const effects: Effect[] = effectCallbacks.map((cb, index) =>
-    createEffect(cb, {
-      debounceDuration: config?.debounceDuration,
-      key: `${key}_effect_${index}`,
-    })
-  );
+  let effects: Effect[] | null = null;
+
+  const init = () => {
+    effects = effectCallbacks.map((cb, index) =>
+      createEffect(cb, {
+        debounceDuration: config?.debounceDuration,
+        key: `${key}_effect_${index}`,
+      })
+    );
+  };
+
+  if (!config?.skipInit) {
+    init();
+  }
 
   const api = {
     key,
     destroy: () => {
-      effects.forEach((effect) => {
+      effects?.forEach((effect) => {
         effect.destroy();
       });
     },
     restore: () => {
-      effects.forEach((effect) => {
+      if (effects === null) {
+        init();
+      }
+      effects?.forEach((effect) => {
         effect.restore();
       });
     },

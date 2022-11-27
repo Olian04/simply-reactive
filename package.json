@@ -3,8 +3,8 @@
   "version": "2.1.0",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
   "browser": "cdn/simply-reactive.js",
-  "main": "dist/api.js",
-  "types": "dist/api.d.ts",
+  "main": "dist/api.node.js",
+  "types": "dist/api.node.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "mocha",
@@ -12,7 +12,8 @@
     "build:node": "rimraf ./dist && tsc",
     "build:web": "rimraf ./cdn && rollup --config",
     "demo:count": "ts-node ./demos/count.ts",
-    "demo:groups": "ts-node ./demos/groups.ts"
+    "demo:groups": "ts-node ./demos/groups.ts",
+    "demo:web": "http-server -o ./demos/web.html"
   },
   "keywords": [
     "state management",
@@ -30,8 +31,8 @@
   "homepage": "https://github.com/Olian04/simply-reactive#readme",
   "devDependencies": {
     "@types/chai": "^4.3.4",
-    "@types/mocha": "^10.0.0",
     "@types/es6-promise": "3.3.0",
+    "@types/mocha": "^10.0.0",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "@types/typescript": "^2.0.0",
@@ -45,6 +46,7 @@
     "rollup-plugin-typescript": "^1.0.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "http-server": "^14.1.1"
   }
 }

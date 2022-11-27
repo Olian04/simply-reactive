@@ -1,4 +1,4 @@
-import { createGroup, createAtom, createSelector } from '../dist/api';
+import { createGroup, createAtom, createSelector } from '../dist/api.node';
 
 const CountGroup = createGroup({
   getDefault: () =>

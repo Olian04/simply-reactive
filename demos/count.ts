@@ -1,4 +1,4 @@
-import { createAtom, createEffect, createSelector } from '../dist/api';
+import { createAtom, createEffect, createSelector } from '../dist/api.node';
 
 const Count = createAtom({
   default: 0,
