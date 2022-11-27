@@ -38,10 +38,12 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 - [Selectors](#selector) are pieces of derived reactive state.
 - [Effects](#effect) are side effects produced by changes to the reactive graph.
 
-`Simply-reactive` also provides two reactive composites:
+`Simply-reactive` also provides four reactive composites:
 
 - [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
+- [Effect Groups](#effect-Group) are collections of effects used for enabeling and disabeling multiple effects at once.
 - [Resources](#resource) are selectors specifically optimized for data fetching.
+- [Query Atoms](#query-atom) are atoms with two way databindings to query search parameters.
 
 ### Atom
 
@@ -108,6 +110,27 @@ console.log(DoubleCountGroup.find(1).get()); // 4
 console.log(DoubleCountGroup.find(2).get()); // 0
 ```
 
+### Effect Group
+
+Effect Groups are collections of effects used for enabeling and disabeling multiple effects at once.
+
+```ts
+const EffectGroup = createEffectGroup([
+  () => (document.getElementById('in-a').value = A.get()),
+  () => (document.getElementById('in-b').value = B.get()),
+  () => (document.getElementById('out-a').innerText = A.get()),
+  () => (document.getElementById('out-b').innerText = B.get()),
+  () => (document.getElementById('out-product').innerText = A.get() * B.get()),
+]);
+
+document.getElementById('in-a').addEventListener('change', (ev) => {
+  A.set(parseInt(ev.target.value, 10));
+});
+document.getElementById('in-b').addEventListener('change', (ev) => {
+  B.set(parseInt(ev.target.value, 10));
+});
+```
+
 ### Resource
 
 Resources are selectors specifically optimized for data fetching.
@@ -121,4 +144,21 @@ console.log(`Data after first load ${await Data.get()}`);
 
 Data.invalidate();
 console.log(`Data after second load ${await Data.get()}`);
+```
+
+### Query Atom
+
+Query Atoms are atoms with two way databindings to query search parameters.
+
+```ts
+const A = createQueryAtom({
+  key: 'a',
+  default: 0,
+});
+
+A.set(3);
+
+// Reload page
+
+A.get(); // 3
 ```

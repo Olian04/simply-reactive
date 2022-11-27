@@ -2,7 +2,7 @@ export namespace EffectProps {
   export type Callback = () => void | Promise<void>;
   export type Config = {
     key: string;
-    doInit: boolean;
+    skipInit: boolean;
     debounceDuration: number;
   };
 }
