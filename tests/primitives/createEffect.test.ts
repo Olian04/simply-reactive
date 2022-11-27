@@ -1,8 +1,11 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { createEffect } from '../../src/primitives/createEffect';
 import { getAllLivingMemory } from '../../src/globals';
+import { createEffect } from '../../src/primitives/createEffect';
+import { createAtom } from '../../src/primitives/createAtom';
+import { createSelector } from '../../src/primitives/createSelector';
+import { visualizeDependencyGraph } from '../../src/utils/visualizeDependencyGraph';
 
 describe('createEffect', () => {
   it('should create exactly one memory entry per effect', () => {
@@ -39,6 +42,118 @@ describe('createEffect', () => {
 
       expect(afterCreation - start).to.equal(1);
       expect(afterDestruction - start).to.equal(0);
+    }
+  });
+
+  it('can subscribe to atom', async () => {
+    for (let i = 0; i < 10; i++) {
+      const A = createAtom({
+        default: 0,
+      });
+
+      const awaitable = new Promise<void>((resolve, reject) => {
+        createEffect(() => {
+          if (A.get() === 0) return;
+          resolve();
+        }, {});
+        setTimeout(() => {
+          reject(new Error('Timeout'));
+        }, 100);
+      });
+
+      try {
+        A.set(2);
+        await awaitable;
+      } catch {
+        expect.fail('Never notified change');
+      }
+    }
+  });
+
+  it('can subscribe to atom when reusing key', async () => {
+    for (let i = 0; i < 10; i++) {
+      const A = createAtom({
+        default: 0,
+      });
+
+      const awaitable = new Promise<void>((resolve, reject) => {
+        createEffect(
+          () => {
+            if (A.get() === 0) return;
+            resolve();
+          },
+          { key: 'test' }
+        );
+        setTimeout(() => {
+          reject(new Error('Timeout'));
+        }, 100);
+      });
+
+      try {
+        A.set(2);
+        await awaitable;
+      } catch {
+        expect.fail('Never notified change');
+      }
+    }
+  });
+
+  it('can subscribe to selector', async () => {
+    for (let i = 0; i < 10; i++) {
+      const A = createAtom({
+        default: 0,
+      });
+      const B = createSelector({
+        get: () => A.get() * 2,
+      });
+
+      const awaitable = new Promise<void>((resolve, reject) => {
+        createEffect(() => {
+          if (B.get() === 0) return;
+          resolve();
+        }, {});
+        setTimeout(() => {
+          reject(new Error('Timeout'));
+        }, 100);
+      });
+
+      try {
+        A.set(2);
+        await awaitable;
+      } catch {
+        expect.fail('Never notified change');
+      }
+    }
+  });
+  it('can subscribe to selector when reusing key', async () => {
+    for (let i = 0; i < 10; i++) {
+      const A = createAtom({
+        default: 0,
+      });
+      const B = createSelector({
+        get: () => A.get() * 2,
+      });
+
+      const awaitable = new Promise<void>((resolve, reject) => {
+        createEffect(
+          () => {
+            if (B.get() === 0) return;
+            resolve();
+          },
+          { key: 'test' }
+        );
+        setTimeout(() => {
+          reject(new Error('Timeout'));
+        }, 100);
+      });
+
+      try {
+        A.set(2);
+        await awaitable;
+      } catch (err) {
+        console.log(visualizeDependencyGraph());
+        expect.fail('Never notified change');
+      }
     }
   });
 });

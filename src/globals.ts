@@ -42,7 +42,7 @@ export const notifyLivingSubscribers = (key: string) => {
   if (!mem) return;
   if (!('subscribers' in mem)) return;
 
-  for (const subKey of mem.subscribers) {
+  for (const subKey of [...mem.subscribers.keys()]) {
     const subMem = getMemory<AtomMemory | SelectorMemory | EffectMemory>(
       subKey
     );
@@ -60,11 +60,13 @@ export const notifyLivingSubscribers = (key: string) => {
 };
 
 export const subscribeTo = (key: string, depKey: string) => {
+  if (key === depKey) return;
+
   const mem = getMemory<AtomMemory | SelectorMemory>(key);
   if (!mem) return;
   if (!('subscribers' in mem)) return;
 
-  const depMem = getMemory<AtomMemory | SelectorMemory>(depKey);
+  const depMem = getMemory<EffectMemory | SelectorMemory>(depKey);
   if (!depMem) return;
   if (!('dependencies' in depMem)) return;
 
@@ -73,7 +75,7 @@ export const subscribeTo = (key: string, depKey: string) => {
 };
 
 export const unsubscribeAllDependencies = (key: string) => {
-  const mem = getMemory<AtomMemory | SelectorMemory>(key);
+  const mem = getMemory<EffectMemory | SelectorMemory>(key);
   if (!mem) return;
   if (!('dependencies' in mem)) return;
 

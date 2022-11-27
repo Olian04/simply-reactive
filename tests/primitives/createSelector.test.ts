@@ -101,13 +101,10 @@ describe('createSelector', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(
-          () => {
-            if (B.get() === 0) return;
-            resolve();
-          },
-          { key: 'foo' }
-        );
+        createEffect(() => {
+          if (B.get() === 0) return;
+          resolve();
+        });
         setTimeout(() => {
           reject(new Error('Timeout'));
         }, 100);
@@ -115,9 +112,6 @@ describe('createSelector', () => {
 
       try {
         A.set(2);
-        console.log(getAllLivingMemory().find((v) => v.key === A.key));
-        console.log(getAllLivingMemory().find((v) => v.key === B.key));
-        console.log(getAllLivingMemory().find((v) => v.key === 'foo'));
         await awaitable;
       } catch {
         expect.fail('Never notified change');
