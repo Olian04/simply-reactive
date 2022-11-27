@@ -40,14 +40,16 @@ describe('createSelector', () => {
   });
 
   it('should be able to nest selectors inside other selectors', () => {
-    for (let i = 0; i < 10; i++) {
-      const Outer = createAtom({
-        default: 1,
-      });
-      const Inner = createAtom({
-        default: 1,
-      });
+    const Outer = createAtom({
+      default: 1,
+    });
+    const Inner = createAtom({
+      default: 1,
+    });
 
+    for (let i = 0; i < 10; i++) {
+      Outer.set(1);
+      Inner.set(1);
       const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createSelector({
@@ -92,10 +94,12 @@ describe('createSelector', () => {
   });
 
   it('can be subscribed to', async () => {
+    const A = createAtom({
+      default: 0,
+    });
+
     for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
+      A.set(0);
       const B = createSelector({
         get: () => A.get() * 2,
       });

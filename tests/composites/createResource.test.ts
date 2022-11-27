@@ -40,10 +40,12 @@ describe('createResource', () => {
   });
 
   it('can be subscribed to', async () => {
+    const A = createAtom({
+      default: 0,
+    });
+
     for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
+      A.set(0);
       const B = createResource({
         get: async () => A.get() * 2,
       });

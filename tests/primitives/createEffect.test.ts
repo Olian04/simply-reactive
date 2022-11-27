@@ -2,10 +2,10 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { getAllLivingMemory } from '../../src/globals';
+import { Effect } from '../../src/types/Effect';
 import { createEffect } from '../../src/primitives/createEffect';
 import { createAtom } from '../../src/primitives/createAtom';
 import { createSelector } from '../../src/primitives/createSelector';
-import { visualizeDependencyGraph } from '../../src/utils/visualizeDependencyGraph';
 
 describe('createEffect', () => {
   it('should create exactly one memory entry per effect', () => {
@@ -46,11 +46,12 @@ describe('createEffect', () => {
   });
 
   it('can subscribe to atom', async () => {
-    for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
+    const A = createAtom({
+      default: 0,
+    });
 
+    for (let i = 0; i < 10; i++) {
+      A.set(0);
       const awaitable = new Promise<void>((resolve, reject) => {
         const Effect = createEffect(() => {
           if (A.get() === 0) return;
@@ -72,13 +73,15 @@ describe('createEffect', () => {
   });
 
   it('can subscribe to atom when reusing key', async () => {
-    for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
+    const A = createAtom({
+      default: 0,
+    });
 
+    for (let i = 0; i < 10; i++) {
+      A.set(0);
+      let Effect: Effect = null as any as Effect;
       const awaitable = new Promise<void>((resolve, reject) => {
-        const Effect = createEffect(
+        Effect = createEffect(
           () => {
             if (A.get() === 0) return;
             resolve();
@@ -86,7 +89,7 @@ describe('createEffect', () => {
           { key: 'test' }
         );
         setTimeout(() => {
-          Effect.destroy();
+          Effect?.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -94,6 +97,7 @@ describe('createEffect', () => {
       try {
         A.set(2);
         await awaitable;
+        Effect?.destroy();
       } catch {
         expect.fail('Never notified change');
       }
@@ -101,14 +105,15 @@ describe('createEffect', () => {
   });
 
   it('can subscribe to selector', async () => {
-    for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
-      const B = createSelector({
-        get: () => A.get() * 2,
-      });
+    const A = createAtom({
+      default: 0,
+    });
+    const B = createSelector({
+      get: () => A.get() * 2,
+    });
 
+    for (let i = 0; i < 10; i++) {
+      A.set(0);
       const awaitable = new Promise<void>((resolve, reject) => {
         const Effect = createEffect(() => {
           if (B.get() === 0) return;
@@ -128,17 +133,20 @@ describe('createEffect', () => {
       }
     }
   });
-  it('can subscribe to selector when reusing key', async () => {
-    for (let i = 0; i < 10; i++) {
-      const A = createAtom({
-        default: 0,
-      });
-      const B = createSelector({
-        get: () => A.get() * 2,
-      });
 
+  it('can subscribe to selector when reusing key', async () => {
+    const A = createAtom({
+      default: 0,
+    });
+    const B = createSelector({
+      get: () => A.get() * 2,
+    });
+
+    for (let i = 0; i < 10; i++) {
+      A.set(0);
+      let Effect: Effect = null as any as Effect;
       const awaitable = new Promise<void>((resolve, reject) => {
-        const Effect = createEffect(
+        Effect = createEffect(
           () => {
             if (B.get() === 0) return;
             resolve();
@@ -146,7 +154,7 @@ describe('createEffect', () => {
           { key: 'test' }
         );
         setTimeout(() => {
-          Effect.destroy();
+          Effect?.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -154,8 +162,8 @@ describe('createEffect', () => {
       try {
         A.set(2);
         await awaitable;
-      } catch (err) {
-        console.log(visualizeDependencyGraph());
+        Effect?.destroy();
+      } catch {
         expect.fail('Never notified change');
       }
     }
