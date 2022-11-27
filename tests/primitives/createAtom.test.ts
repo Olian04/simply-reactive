@@ -1,25 +1,20 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
-import { globalMemory } from '../../src/globals';
+import { createEffect } from '../../src/primitives/createEffect';
+import { getAllLivingMemory } from '../../src/globals';
 
 describe('createAtom', () => {
-  afterEach(() => {
-    Object.keys(globalMemory).forEach((key) => {
-      delete globalMemory[key];
-    });
-  });
-
   it('should create exactly one memory entry per atom', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createAtom({
         default: 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(1);
     }
@@ -27,7 +22,7 @@ describe('createAtom', () => {
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createAtom({
         default: 0,
@@ -37,7 +32,7 @@ describe('createAtom', () => {
         default: 0,
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(1);
     }
@@ -96,10 +91,14 @@ describe('createAtom', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        A.subscribe('test', resolve);
+        const Effect = createEffect(() => {
+          if (A.get() === 0) return;
+          resolve();
+        });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
-        }, 0);
+        }, 100);
       });
 
       try {

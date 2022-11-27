@@ -1,4 +1,6 @@
-import { globalMemory } from '../globals';
+import { getAllLivingMemory } from '../globals';
+import { AtomMemory } from '../types/AtomMemory';
+import { SelectorMemory } from '../types/SelectorMemory';
 
 /**
  * Returns a string representation of the dependencies between each reactive primitive as they are at the point of invocation.
@@ -7,10 +9,10 @@ import { globalMemory } from '../globals';
  */
 export const visualizeDependencyGraph = () => {
   const mermaidGraph = ['graph TD;'];
-  for (let [key, mem] of Object.entries(globalMemory)) {
+  for (let mem of getAllLivingMemory<AtomMemory | SelectorMemory>()) {
     if ('subscribers' in mem) {
       for (let subKey of Object.keys(mem.subscribers)) {
-        mermaidGraph.push(`${key}-->${subKey};`);
+        mermaidGraph.push(`${mem.key}-->${subKey};`);
       }
     }
   }

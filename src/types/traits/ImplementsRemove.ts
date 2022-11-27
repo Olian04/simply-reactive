@@ -1,3 +1,3 @@
-export type ImplementsRemove<A> = {
-  remove: (...args: A[]) => void;
+export type ImplementsRemove<I> = {
+  remove: (id: I) => void;
 };

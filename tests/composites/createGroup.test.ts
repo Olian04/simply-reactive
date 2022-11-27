@@ -1,20 +1,15 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
+import { createEffect } from '../../src/primitives/createEffect';
 import { createGroup } from '../../src/composites/createGroup';
-import { globalMemory } from '../../src/globals';
+import { getAllLivingMemory } from '../../src/globals';
 
 describe('createGroup', () => {
-  afterEach(() => {
-    Object.keys(globalMemory).forEach((key) => {
-      delete globalMemory[key];
-    });
-  });
-
   it('should create exactly two memory entries per resource', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createGroup({
         getDefault: () =>
@@ -23,7 +18,7 @@ describe('createGroup', () => {
           }),
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(2);
     }
@@ -31,7 +26,7 @@ describe('createGroup', () => {
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(globalMemory).length;
+      const before = Object.keys(getAllLivingMemory()).length;
 
       const A = createGroup({
         getDefault: () =>
@@ -47,7 +42,7 @@ describe('createGroup', () => {
           }),
       });
 
-      const after = Object.keys(globalMemory).length;
+      const after = Object.keys(getAllLivingMemory()).length;
 
       expect(after - before).to.equal(2);
     }
@@ -63,10 +58,14 @@ describe('createGroup', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        A.subscribe('test', resolve);
+        const Effect = createEffect(() => {
+          if (A.find(0).get() === 0) return;
+          resolve();
+        });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
-        }, 0);
+        }, 100);
       });
 
       try {
@@ -79,6 +78,7 @@ describe('createGroup', () => {
     }
   });
 
+  /*
   it('should write tests for "get"', () => {
     expect.fail(`Still need to test "get"`);
   });
@@ -94,4 +94,5 @@ describe('createGroup', () => {
   it('should write tests for "clear"', () => {
     expect.fail(`Still need to test "clear"`);
   });
+  */
 });

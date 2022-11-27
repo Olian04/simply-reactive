@@ -1,6 +1,6 @@
-export type AtomMemory = {
+import { MemoryBase } from './MemoryBase';
+
+export type AtomMemory = MemoryBase & {
   value: unknown;
-  subscribers: {
-    [key in string]: () => void;
-  };
+  subscribers: Set<string>;
 };

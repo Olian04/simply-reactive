@@ -1,8 +1,8 @@
-export type SelectorMemory = {
+import { MemoryBase } from './MemoryBase';
+
+export type SelectorMemory = MemoryBase & {
   value: unknown;
   isDirty: boolean;
-  subscribers: {
-    [key in string]: () => void;
-  };
-  unsubscribeFunctions: (() => void)[];
+  subscribers: Set<string>;
+  dependencies: Set<string>;
 };
