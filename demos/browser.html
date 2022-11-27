@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simply Reactive</title>
+  </head>
+  <body>
+    <div>
+      <span id="out-a"></span>
+      *
+      <span id="out-b"></span>
+      =
+      <span id="out-product"></span>
+    </div>
+    <lable>
+      A:
+      <input id="in-a" />
+    </lable>
+    <lable>
+      B:
+      <input id="in-b" />
+    </lable>
+
+    <button id="destroy-btn">Destroy</button>
+    <button id="restore-btn">Restore</button>
+
+    <script src="../cdn/simply-reactive.js"></script>
+    <script>
+      const { createAtom, createSelector, createEffectGroup } = simplyReactive;
+
+      const A = createAtom({
+        default: 2,
+      });
+
+      const B = createAtom({
+        default: 3,
+      });
+
+      const Prod = createSelector({
+        get: () => A.get() * B.get(),
+      });
+
+      document.getElementById('in-a').value = A.get();
+      document.getElementById('in-a').addEventListener('change', (ev) => {
+        A.set(parseInt(ev.target.value, 10));
+      });
+
+      document.getElementById('in-b').value = B.get();
+      document.getElementById('in-b').addEventListener('change', (ev) => {
+        B.set(parseInt(ev.target.value, 10));
+      });
+
+      const Effect = createEffectGroup([
+        () => (document.getElementById('out-a').innerText = A.get()),
+        () => (document.getElementById('out-b').innerText = B.get()),
+        () => (document.getElementById('out-product').innerText = Prod.get()),
+      ]);
+
+      document.getElementById('destroy-btn').addEventListener('click', () => {
+        Effect.destroy();
+      });
+      document.getElementById('restore-btn').addEventListener('click', () => {
+        Effect.restore();
+      });
+    </script>
+  </body>
+</html>

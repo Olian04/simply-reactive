@@ -1,4 +1,4 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
@@ -49,11 +49,12 @@ describe('createResource', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(async () => {
+        const Effect = createEffect(async () => {
           if ((await B.get()) === 0) return;
           resolve();
         });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -76,11 +77,12 @@ describe('createResource', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(async () => {
+        const Effect = createEffect(async () => {
           if ((await B.get()) === c) return;
           resolve();
         });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });

@@ -13,11 +13,11 @@ describe('createEffect', () => {
       const start = Object.keys(getAllLivingMemory()).length;
 
       const key = `effect_${i}`;
-      const destroy = createEffect(() => {}, { key });
+      const Effect = createEffect(() => {}, { key });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      destroy();
+      Effect.destroy();
 
       const afterDestruction = Object.keys(getAllLivingMemory()).length;
 
@@ -32,11 +32,11 @@ describe('createEffect', () => {
 
       const key = `effect_${i}`;
       createEffect(() => {}, { key });
-      const destroy = createEffect(() => {}, { key });
+      const Effect = createEffect(() => {}, { key });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      destroy();
+      Effect.destroy();
 
       const afterDestruction = Object.keys(getAllLivingMemory()).length;
 
@@ -52,11 +52,12 @@ describe('createEffect', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(() => {
+        const Effect = createEffect(() => {
           if (A.get() === 0) return;
           resolve();
         }, {});
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -77,7 +78,7 @@ describe('createEffect', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(
+        const Effect = createEffect(
           () => {
             if (A.get() === 0) return;
             resolve();
@@ -85,6 +86,7 @@ describe('createEffect', () => {
           { key: 'test' }
         );
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -108,11 +110,12 @@ describe('createEffect', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(() => {
+        const Effect = createEffect(() => {
           if (B.get() === 0) return;
           resolve();
         }, {});
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
@@ -135,7 +138,7 @@ describe('createEffect', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(
+        const Effect = createEffect(
           () => {
             if (B.get() === 0) return;
             resolve();
@@ -143,6 +146,7 @@ describe('createEffect', () => {
           { key: 'test' }
         );
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });

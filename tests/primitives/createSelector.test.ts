@@ -1,4 +1,4 @@
-import { describe, it, afterEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { createAtom } from '../../src/primitives/createAtom';
@@ -101,11 +101,12 @@ describe('createSelector', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(() => {
+        const Effect = createEffect(() => {
           if (B.get() === 0) return;
           resolve();
         });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });

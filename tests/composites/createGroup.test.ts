@@ -58,11 +58,12 @@ describe('createGroup', () => {
       });
 
       const awaitable = new Promise<void>((resolve, reject) => {
-        createEffect(() => {
+        const Effect = createEffect(() => {
           if (A.find(0).get() === 0) return;
           resolve();
         });
         setTimeout(() => {
+          Effect.destroy();
           reject(new Error('Timeout'));
         }, 100);
       });
