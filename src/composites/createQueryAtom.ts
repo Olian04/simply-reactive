@@ -1,7 +1,7 @@
 import type { QueryAtom } from '../types/QueryAtom';
+import type { AtomProps } from '../types/AtomProps';
 
 import { createAtom } from '../primitives/createAtom';
-import { AtomProps } from '../types/AtomProps';
 
 export const createQueryAtom = <T = string | number>(
   props: Required<AtomProps<T>>

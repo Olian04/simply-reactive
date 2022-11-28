@@ -2,7 +2,7 @@
   "name": "simply-reactive",
   "version": "3.0.0",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
-  "browser": "cdn/simply-reactive.js",
+  "browser": "cdn/simply-reactive.mjs",
   "main": "dist/api.node.js",
   "types": "dist/api.node.d.ts",
   "scripts": {

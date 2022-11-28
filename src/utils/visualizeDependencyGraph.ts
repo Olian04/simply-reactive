@@ -11,7 +11,7 @@ export const visualizeDependencyGraph = () => {
   const mermaidGraph = ['graph TD;'];
   for (let mem of getAllLivingMemory<AtomMemory | SelectorMemory>()) {
     if ('subscribers' in mem) {
-      for (let subKey of Object.keys(mem.subscribers)) {
+      for (let subKey of mem.subscribers.values()) {
         mermaidGraph.push(`${mem.key}-->${subKey};`);
       }
     }

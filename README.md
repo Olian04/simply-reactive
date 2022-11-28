@@ -11,14 +11,28 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 
 ## Installation
 
-**NPM:**
+### NPM
 
 [`npm i simply-reactive`](https://www.npmjs.com/package/simply-reactive)
 
-**CDN:**
+### CDN
+
+#### ESModule
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive"></script>
+<script type="module">
+  import {
+    createAtom,
+    createSelector,
+    createEffect,
+  } from 'https://cdn.jsdelivr.net/npm/simply-reactive';
+</script>
+```
+
+#### IIFE
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
 <script>
   const { createAtom, createSelector, createEffect } = simplyReactive;
 </script>

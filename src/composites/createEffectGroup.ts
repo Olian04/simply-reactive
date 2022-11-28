@@ -1,8 +1,8 @@
+import type { EffectGroup } from '../types/EffectGroup';
+import type { EffectProps } from '../types/EffectProps';
+
 import { getNextAutoKey } from '../globals';
 import { createEffect } from '../primitives/createEffect';
-import { Effect } from '../types/Effect';
-import { EffectGroup } from '../types/EffectGroup';
-import { EffectProps } from '../types/EffectProps';
 
 export const createEffectGroup = (
   effectCallbacks: EffectProps.Callback[],
@@ -10,33 +10,23 @@ export const createEffectGroup = (
 ): EffectGroup => {
   const key = config?.key || getNextAutoKey();
 
-  let effects: Effect[] | null = null;
-
-  const init = () => {
-    effects = effectCallbacks.map((cb, index) =>
-      createEffect(cb, {
-        debounceDuration: config?.debounceDuration,
-        key: `${key}_effect_${index}`,
-      })
-    );
-  };
-
-  if (!config?.skipInit) {
-    init();
-  }
+  const effects = effectCallbacks.map((cb, index) =>
+    createEffect(cb, {
+      key: `${key}_effect_${index}`,
+      debounceDuration: config?.debounceDuration,
+      skipInit: config?.skipInit,
+    })
+  );
 
   const api = {
     key,
     destroy: () => {
-      effects?.forEach((effect) => {
+      effects.forEach((effect) => {
         effect.destroy();
       });
     },
     restore: () => {
-      if (effects === null) {
-        init();
-      }
-      effects?.forEach((effect) => {
+      effects.forEach((effect) => {
         effect.restore();
       });
     },
