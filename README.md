@@ -7,7 +7,7 @@
 
 # simply-reactive
 
-Simply-reactive is a [very small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://github.com/solidjs/solid) and [Recoiljs](https://github.com/facebookexperimental/Recoil).
+Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/simply-reactive) reactive state management library inspired by [Solidjs](https://github.com/solidjs/solid) and [Recoiljs](https://github.com/facebookexperimental/Recoil).
 
 ## Installation
 
@@ -28,7 +28,7 @@ Simply-reactive is a [very small & dependency free](https://bundlephobia.com/pac
 
 - Counting with Atoms & Selectors: [demos/count.ts](./demos/count.ts)
 - Counting with Groups: [demos/groups.ts](./demos/groups.ts)
-- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/mx1h2ctd/13/>
+- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/jhtfxo91/2/>
 
 ## Documentation
 
