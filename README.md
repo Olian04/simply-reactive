@@ -75,7 +75,7 @@ console.log(`Count: ${DoubleCount.get()}`);
 Effects are side effects produced by changes to the reactive graph.
 
 ```ts
-createEffect(() => {
+const LogEffect = createEffect(() => {
   console.log(`${DoubleCount.get()} is twice as big as ${Count.get()}`);
 });
 
