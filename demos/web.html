@@ -72,11 +72,9 @@
           document.getElementById('in-b').value = B.get();
         },
         () => {
-          B.get(); // Subscribe to B
           document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
         },
         () => {
-          A.get(); // Subscribe to A
           document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
         },
       ]);
