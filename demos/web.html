@@ -57,24 +57,18 @@
 
       const Effect = createEffectGroup([
         () => {
+          document.getElementById('in-a').value = A.get();
           document.getElementById('out-a').innerText = A.get();
         },
         () => {
+          document.getElementById('in-b').value = B.get();
           document.getElementById('out-b').innerText = B.get();
         },
         () => {
           document.getElementById('out-product').innerText = Prod.get();
         },
         () => {
-          document.getElementById('in-a').value = A.get();
-        },
-        () => {
-          document.getElementById('in-b').value = B.get();
-        },
-        () => {
           document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-        },
-        () => {
           document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
         },
       ]);
