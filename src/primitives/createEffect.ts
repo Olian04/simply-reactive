@@ -71,7 +71,9 @@ export const createEffect = (
     },
   };
 
-  api.restore();
+  if (!config?.skipInit) {
+    api.restore();
+  }
 
   return api;
 };

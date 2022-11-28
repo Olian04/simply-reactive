@@ -13,4 +13,12 @@ export default [
     },
     plugins: [typescript(), resolve(), commonjs(), terser()],
   },
+  {
+    input: './src/api.web.ts',
+    output: {
+      file: './cdn/simply-reactive.mjs',
+      format: 'es',
+    },
+    plugins: [typescript(), resolve(), commonjs(), terser()],
+  },
 ];

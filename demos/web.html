@@ -24,18 +24,22 @@
     </lable>
 
     <br />
-    <button id="destroy-btn">Stop</button>
     <button id="restore-btn">Start</button>
+    <button id="destroy-btn">Stop</button>
 
     <br />
     <div id="links"></div>
     <a id="link-a" href="">Increment A</a>
     <a id="link-b" href="">Increment B</a>
 
-    <script src="../cdn/simply-reactive.js"></script>
-    <script>
-      const { createQueryAtom, createSelector, createEffectGroup } =
-        simplyReactive;
+    <script type="module">
+      import {
+        createQueryAtom,
+        createSelector,
+        createEffect,
+        createEffectGroup,
+        visualizeDependencyGraph,
+      } from '../cdn/simply-reactive.mjs';
 
       const A = createQueryAtom({
         key: 'a',
@@ -52,11 +56,21 @@
       });
 
       const Effect = createEffectGroup([
-        () => (document.getElementById('out-a').innerText = A.get()),
-        () => (document.getElementById('out-b').innerText = B.get()),
-        () => (document.getElementById('out-product').innerText = Prod.get()),
-        () => (document.getElementById('in-a').value = A.get()),
-        () => (document.getElementById('in-b').value = B.get()),
+        () => {
+          document.getElementById('out-a').innerText = A.get();
+        },
+        () => {
+          document.getElementById('out-b').innerText = B.get();
+        },
+        () => {
+          document.getElementById('out-product').innerText = Prod.get();
+        },
+        () => {
+          document.getElementById('in-a').value = A.get();
+        },
+        () => {
+          document.getElementById('in-b').value = B.get();
+        },
         () => {
           B.get(); // Subscribe to B
           document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
@@ -67,18 +81,25 @@
         },
       ]);
 
-      document.getElementById('in-a').addEventListener('change', (ev) => {
-        A.set(parseInt(ev.target.value, 10));
-      });
-      document.getElementById('in-b').addEventListener('change', (ev) => {
-        B.set(parseInt(ev.target.value, 10));
-      });
-      document.getElementById('destroy-btn').addEventListener('click', () => {
-        Effect.destroy();
-      });
-      document.getElementById('restore-btn').addEventListener('click', () => {
-        Effect.restore();
-      });
+      document
+        .getElementById('in-a')
+        .addEventListener('change', (ev) =>
+          A.set(parseInt(ev.target.value, 10))
+        );
+
+      document
+        .getElementById('in-b')
+        .addEventListener('change', (ev) =>
+          B.set(parseInt(ev.target.value, 10))
+        );
+
+      document
+        .getElementById('destroy-btn')
+        .addEventListener('click', () => Effect.destroy());
+
+      document
+        .getElementById('restore-btn')
+        .addEventListener('click', () => Effect.restore());
     </script>
   </body>
 </html>
