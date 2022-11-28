@@ -1,8 +1,9 @@
+import type { Effect } from '../types/Effect';
+import type { EffectGroup } from '../types/EffectGroup';
+import type { EffectProps } from '../types/EffectProps';
+
 import { getNextAutoKey } from '../globals';
 import { createEffect } from '../primitives/createEffect';
-import { Effect } from '../types/Effect';
-import { EffectGroup } from '../types/EffectGroup';
-import { EffectProps } from '../types/EffectProps';
 
 export const createEffectGroup = (
   effectCallbacks: EffectProps.Callback[],

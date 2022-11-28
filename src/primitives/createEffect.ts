@@ -1,5 +1,6 @@
 import type { Effect } from '../types/Effect';
 import type { EffectMemory } from '../types/EffectMemory';
+import type { EffectProps } from '../types/EffectProps';
 
 import {
   deleteMemory,
@@ -9,7 +10,6 @@ import {
   pushReactiveContext,
   unsubscribeAllDependencies,
 } from '../globals';
-import { EffectProps } from '../types/EffectProps';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
