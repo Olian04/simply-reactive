@@ -43,7 +43,7 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 - Counting with Atoms & Selectors: [demos/count.ts](./demos/count.ts)
 - Counting with Groups: [demos/groups.ts](./demos/groups.ts)
 - Interactive web page: [demos/web.html](./demos/web.html)
-- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/jhtfxo91/2/>
+- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/nsa53d1w/>
 
 ## Documentation
 
