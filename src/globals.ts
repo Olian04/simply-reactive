@@ -1,7 +1,7 @@
-import { MemoryBase } from './types/MemoryBase';
-import { SelectorMemory } from './types/SelectorMemory';
-import { AtomMemory } from './types/AtomMemory';
-import { EffectMemory } from './types/EffectMemory';
+import type { MemoryBase } from './types/MemoryBase';
+import type { SelectorMemory } from './types/SelectorMemory';
+import type { AtomMemory } from './types/AtomMemory';
+import type { EffectMemory } from './types/EffectMemory';
 
 export const AUTO_KEY_PREFIX = '[auto]';
 export const INTERNAL_KEY_PREFIX = '[internal]';

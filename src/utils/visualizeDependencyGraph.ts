@@ -1,10 +1,11 @@
+import type { AtomMemory } from '../types/AtomMemory';
+import type { SelectorMemory } from '../types/SelectorMemory';
+
 import {
   AUTO_KEY_PREFIX,
   getAllLivingMemory,
   INTERNAL_KEY_PREFIX,
 } from '../globals';
-import { AtomMemory } from '../types/AtomMemory';
-import { SelectorMemory } from '../types/SelectorMemory';
 
 type IncludeCategory = 'auto-keyed' | 'name-keyed' | 'internal';
 
