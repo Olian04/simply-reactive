@@ -32,7 +32,7 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 #### IIFE
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.min.js"></script>
 <script>
   const { createAtom, createSelector, createEffect } = simplyReactive;
 </script>

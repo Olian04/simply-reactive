@@ -12,7 +12,7 @@ export const createEffectGroup = (
 
   const effects = effectCallbacks.map((cb, index) =>
     createEffect(cb, {
-      key: `${key}_effect_${index}`,
+      key: `${key}_${index}`,
       debounceDuration: config?.debounceDuration,
       skipInit: config?.skipInit,
     })

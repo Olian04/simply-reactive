@@ -26,6 +26,7 @@
     <br />
     <button id="restore-btn">Start</button>
     <button id="destroy-btn">Stop</button>
+    <button id="log-btn">Log</button>
 
     <br />
     <div id="links"></div>
@@ -42,36 +43,68 @@
       } from '../cdn/simply-reactive.mjs';
 
       const A = createQueryAtom({
-        key: 'a',
+        key: 'A',
         default: 2,
       });
 
       const B = createQueryAtom({
-        key: 'b',
+        key: 'B',
         default: 3,
       });
 
-      const Prod = createSelector({
+      const Product = createSelector({
+        key: 'Product',
         get: () => A.get() * B.get(),
       });
 
-      const Effect = createEffectGroup([
+      // const Effect = createEffectGroup(
+      //   [
+      //     () => {
+      //       document.getElementById('in-a').value = A.get();
+      //       document.getElementById('out-a').innerText = A.get();
+      //     },
+      //     () => {
+      //       document.getElementById('in-b').value = B.get();
+      //       document.getElementById('out-b').innerText = B.get();
+      //     },
+      //     () => {
+      //       document.getElementById('out-product').innerText = Product.get();
+      //     },
+      //     () => {
+      //       document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
+      //       document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
+      //     },
+      //   ],
+      //   { key: 'Effect' }
+      // );
+
+      createEffect(
         () => {
           document.getElementById('in-a').value = A.get();
           document.getElementById('out-a').innerText = A.get();
         },
+        { key: 'Effect_0' }
+      );
+      createEffect(
         () => {
           document.getElementById('in-b').value = B.get();
           document.getElementById('out-b').innerText = B.get();
         },
+        { key: 'Effect_1' }
+      );
+      createEffect(
         () => {
-          document.getElementById('out-product').innerText = Prod.get();
+          document.getElementById('out-product').innerText = Product.get();
         },
+        { key: 'Effect_2' }
+      );
+      const Effect = createEffect(
         () => {
           document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
           document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
         },
-      ]);
+        { key: 'Effect_3' }
+      );
 
       document
         .getElementById('in-a')
@@ -92,6 +125,17 @@
       document
         .getElementById('restore-btn')
         .addEventListener('click', () => Effect.restore());
+
+      document
+        .getElementById('log-btn')
+        .addEventListener('click', () =>
+          console.log(
+            visualizeDependencyGraph(['auto-keyed', 'name-keyed', 'internal'])
+          )
+        );
+      console.log(
+        visualizeDependencyGraph(['auto-keyed', 'name-keyed', 'internal'])
+      );
     </script>
   </body>
 </html>

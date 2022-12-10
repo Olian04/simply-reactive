@@ -3,6 +3,9 @@ import { SelectorMemory } from './types/SelectorMemory';
 import { AtomMemory } from './types/AtomMemory';
 import { EffectMemory } from './types/EffectMemory';
 
+export const AUTO_KEY_PREFIX = '[auto]';
+export const INTERNAL_KEY_PREFIX = '[internal]';
+
 const globalMemory = new Map<string, WeakRef<MemoryBase>>();
 
 const globalMemoryCleanupRegistry = new FinalizationRegistry<string>((key) => {
@@ -103,5 +106,5 @@ export const registerDependency = (key: string) =>
 export const getNextAutoKey = (
   (nextAutoKey = 1) =>
   () =>
-    `_${nextAutoKey++}`
+    `${AUTO_KEY_PREFIX}_${nextAutoKey++}`
 )();

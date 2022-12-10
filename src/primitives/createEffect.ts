@@ -25,6 +25,13 @@ export const createEffect = (
   const key = config?.key || getNextAutoKey();
   let mem: EffectMemory | null = null;
 
+  const runNotify = async () => {
+    unsubscribeAllDependencies(key);
+    pushReactiveContext(key);
+    await Promise.resolve(notifyCallback());
+    popReactiveContext();
+  };
+
   const api = {
     key,
     destroy: () => {
@@ -59,13 +66,6 @@ export const createEffect = (
           mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
         },
       }));
-
-      const runNotify = async () => {
-        unsubscribeAllDependencies(key);
-        pushReactiveContext(key);
-        await Promise.resolve(notifyCallback());
-        popReactiveContext();
-      };
 
       runNotify();
     },

@@ -3,6 +3,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
+/** @type {import('rollup').RollupOptions[]} */
 export default [
   {
     input: './src/api.web.ts',
@@ -11,7 +12,29 @@ export default [
       format: 'iife',
       name: 'simplyReactive',
     },
-    plugins: [typescript(), resolve(), commonjs(), terser()],
+    plugins: [
+      typescript({
+        target: 'es5',
+      }),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: './src/api.web.ts',
+    output: {
+      file: './cdn/simply-reactive.min.js',
+      format: 'iife',
+      name: 'simplyReactive',
+    },
+    plugins: [
+      typescript({
+        target: 'es5',
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
   },
   {
     input: './src/api.web.ts',
@@ -19,6 +42,27 @@ export default [
       file: './cdn/simply-reactive.mjs',
       format: 'es',
     },
-    plugins: [typescript(), resolve(), commonjs(), terser()],
+    plugins: [
+      typescript({
+        target: 'es6',
+      }),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: './src/api.web.ts',
+    output: {
+      file: './cdn/simply-reactive.min.mjs',
+      format: 'es',
+    },
+    plugins: [
+      typescript({
+        target: 'es6',
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
   },
 ];

@@ -5,6 +5,7 @@
     "lib": ["esnext", "dom"],
     "outDir": "dist/",
     "declaration": true,
+    "sourceMap": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noImplicitReturns": true,
