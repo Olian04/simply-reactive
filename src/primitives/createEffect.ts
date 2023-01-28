@@ -50,21 +50,25 @@ export const createEffect = (
       mem = null;
     },
     restore: () => {
-      mem = getMemoryOrDefault<EffectMemory>(key, () => ({
+      mem = getMemoryOrDefault<EffectMemory>(
         key,
-        notifyTimeoutId: undefined,
-        debounceDuration: config?.debounceDuration ?? 0,
-        dependencies: new Set<string>(),
-        onDependencyChange: () => {
-          if (!mem) return;
-          if (mem.debounceDuration === -1) {
-            runNotify();
-            return;
-          }
-          clearTimeout(mem.notifyTimeoutId);
-          mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
-        },
-      }));
+        () => ({
+          key,
+          notifyTimeoutId: undefined,
+          debounceDuration: config?.debounceDuration ?? 0,
+          dependencies: new Set<string>(),
+          onDependencyChange: () => {
+            if (!mem) return;
+            if (mem.debounceDuration === -1) {
+              runNotify();
+              return;
+            }
+            clearTimeout(mem.notifyTimeoutId);
+            mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
+          },
+        }),
+        { forceStrongMemory: true }
+      );
 
       runNotify();
     },

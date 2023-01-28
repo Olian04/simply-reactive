@@ -1,9 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
+import { getAllLivingMemory } from '../../src/globals/memory';
 import { createAtom } from '../../src/primitives/createAtom';
 import { createEffect } from '../../src/primitives/createEffect';
-import { getAllLivingMemory } from '../../src/globals';
 
 describe('createAtom', () => {
   it('should create exactly one memory entry per atom', () => {

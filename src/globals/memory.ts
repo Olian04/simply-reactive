@@ -13,7 +13,9 @@ const globalWeakMemoryCleanupRegistry = new FinalizationRegistry<string>(
 export const getMemoryOrDefault = <V extends MemoryBase>(
   key: string,
   getDefaultMemory: () => V,
-  forceStrongMemory: boolean = false
+  config?: {
+    forceStrongMemory?: boolean;
+  }
 ): V => {
   const maybeMemory = getMemory(key);
 
@@ -22,7 +24,7 @@ export const getMemoryOrDefault = <V extends MemoryBase>(
   }
 
   const memory = getDefaultMemory();
-  if (forceStrongMemory) {
+  if (config?.forceStrongMemory) {
     setStrongMemory(key, memory);
   } else {
     setWeakMemory(key, memory);
@@ -62,7 +64,13 @@ export const getMemory = <T extends MemoryBase>(key: string) => {
 };
 
 export const getAllLivingMemory = <T extends MemoryBase>(): T[] => {
-  return [...globalWeakMemory.values()]
+  const weakMemory = [...globalWeakMemory.values()]
     .map((ref) => ref.deref())
     .filter((maybeVal) => maybeVal !== undefined) as T[];
+
+  const strongMemory = [...globalStrongMemory.values()].filter(
+    (maybeVal) => maybeVal !== undefined
+  ) as T[];
+
+  return [...weakMemory, ...strongMemory];
 };

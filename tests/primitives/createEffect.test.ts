@@ -1,8 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { getAllLivingMemory } from '../../src/globals';
-import { Effect } from '../../src/types/Effect';
+import type { Effect } from '../../src/types/Effect';
+
+import { getAllLivingMemory } from '../../src/globals/memory';
 import { createEffect } from '../../src/primitives/createEffect';
 import { createAtom } from '../../src/primitives/createAtom';
 import { createSelector } from '../../src/primitives/createSelector';

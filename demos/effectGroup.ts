@@ -4,7 +4,7 @@ import {
   createSelector,
   createEffectGroup,
   visualizeDependencyGraph,
-} from '../dist/api.node';
+} from '../dist/api';
 
 const A = createAtom({
   key: 'a',
