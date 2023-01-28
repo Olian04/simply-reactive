@@ -3,13 +3,13 @@ import type { SelectorMemory } from '../types/SelectorMemory';
 import type { SelectorProps } from '../types/SelectorProps';
 
 import {
-  getMemoryOrDefault,
   registerDependency,
   pushReactiveContext,
   popReactiveContext,
-  getNextAutoKey,
-  unsubscribeAllDependencies,
-} from '../globals';
+} from '../globals/contextStack';
+import { getNextAutoKey } from '../globals/autoKey';
+import { getMemoryOrDefault } from '../globals/memory';
+import { unsubscribeAllDependencies } from '../globals/subscribe.utils';
 
 /**
  * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.

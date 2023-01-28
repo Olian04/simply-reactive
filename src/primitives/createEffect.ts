@@ -3,13 +3,12 @@ import type { EffectMemory } from '../types/EffectMemory';
 import type { EffectProps } from '../types/EffectProps';
 
 import {
-  deleteMemory,
-  getMemoryOrDefault,
-  getNextAutoKey,
-  popReactiveContext,
   pushReactiveContext,
-  unsubscribeAllDependencies,
-} from '../globals';
+  popReactiveContext,
+} from '../globals/contextStack';
+import { getNextAutoKey } from '../globals/autoKey';
+import { deleteMemory, getMemoryOrDefault } from '../globals/memory';
+import { unsubscribeAllDependencies } from '../globals/subscribe.utils';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.

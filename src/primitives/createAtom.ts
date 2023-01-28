@@ -2,12 +2,10 @@ import type { Atom } from '../types/Atom';
 import type { AtomMemory } from '../types/AtomMemory';
 import type { AtomProps } from '../types/AtomProps';
 
-import {
-  getMemoryOrDefault,
-  getNextAutoKey,
-  notifyLivingSubscribers,
-  registerDependency,
-} from '../globals';
+import { registerDependency } from '../globals/contextStack';
+import { getNextAutoKey } from '../globals/autoKey';
+import { getMemoryOrDefault } from '../globals/memory';
+import { notifyLivingSubscribers } from '../globals/subscribe.utils';
 
 /**
  * Returns an atomic piece of reactive state.

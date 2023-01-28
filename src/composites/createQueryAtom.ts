@@ -3,7 +3,7 @@ import type { AtomProps } from '../types/AtomProps';
 import type { Group } from '../types/Group';
 import type { Atom } from '../types/Atom';
 
-import { INTERNAL_KEY_PREFIX } from '../globals';
+import { INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { createAtom } from '../primitives/createAtom';
 import { createGroup } from './createGroup';
 
