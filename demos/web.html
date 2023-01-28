@@ -24,14 +24,13 @@
     </lable>
 
     <br />
-    <button id="restore-btn">Start</button>
-    <button id="destroy-btn">Stop</button>
-    <button id="log-btn">Log</button>
+    <label for="should-render">
+      Render Changes
+      <input type="checkbox" id="should-render" checked></input>
+    </label>
 
     <br />
     <div id="links"></div>
-    <a id="link-a" href="">Increment A</a>
-    <a id="link-b" href="">Increment B</a>
 
     <pre class="mermaid" id="dep-graph"></pre>
     <div id="dep-graph-out"></div>
@@ -55,12 +54,12 @@
           ));
 
       const A = createQueryAtom({
-        key: 'A',
+        key: 'Atom A',
         default: 2,
       });
 
       const B = createQueryAtom({
-        key: 'B',
+        key: 'Atom B',
         default: 3,
       });
 
@@ -69,25 +68,27 @@
         get: () => A.get() * B.get(),
       });
 
-      const Effect = createEffectGroup(
-        [
-          () => {
-            document.getElementById('in-a').value = A.get();
-            document.getElementById('out-a').innerText = A.get();
-          },
-          () => {
-            document.getElementById('in-b').value = B.get();
-            document.getElementById('out-b').innerText = B.get();
-          },
-          () => {
-            document.getElementById('out-product').innerText = Product.get();
-          },
-          () => {
-            document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-            document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
-          },
-        ],
-        { key: 'Effect' }
+      const RenderA = createEffect(
+        () => {
+          document.getElementById('in-a').value = A.get();
+          document.getElementById('out-a').innerText = A.get();
+        },
+        { key: 'Render A' }
+      );
+
+      const RenderB = createEffect(
+        () => {
+          document.getElementById('in-b').value = B.get();
+          document.getElementById('out-b').innerText = B.get();
+        },
+        { key: 'Render B' }
+      );
+
+      const RenderProduct = createEffect(
+        () => {
+          document.getElementById('out-product').innerText = Product.get();
+        },
+        { key: 'Render Product' }
       );
 
       document
@@ -102,13 +103,16 @@
           B.set(parseInt(ev.target.value, 10))
         );
 
-      document.getElementById('destroy-btn').addEventListener('click', () => {
-        Effect.destroy();
-        renderGraph();
-      });
-
-      document.getElementById('restore-btn').addEventListener('click', () => {
-        Effect.restore();
+      document.getElementById('should-render').addEventListener('click', (ev) => {
+        if (ev.target.checked) {
+          RenderA.restore();
+          RenderB.restore();
+          RenderProduct.restore();
+        } else {
+          RenderA.destroy();
+          RenderB.destroy();
+          RenderProduct.destroy();
+        }
         renderGraph();
       });
 
