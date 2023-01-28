@@ -5,7 +5,7 @@ import type { AtomProps } from '../types/AtomProps';
 import { registerDependency } from '../globals/contextStack';
 import { getNextAutoKey } from '../globals/autoKey';
 import { getMemoryOrDefault } from '../globals/memory';
-import { notifyLivingSubscribers } from '../globals/subscribe.utils';
+import { notifyLivingSubscribers } from '../globals/subscribe';
 
 /**
  * Returns an atomic piece of reactive state.

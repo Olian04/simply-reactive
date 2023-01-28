@@ -9,7 +9,7 @@ import {
 } from '../globals/contextStack';
 import { getNextAutoKey } from '../globals/autoKey';
 import { getMemoryOrDefault } from '../globals/memory';
-import { unsubscribeAllDependencies } from '../globals/subscribe.utils';
+import { unsubscribeAllDependencies } from '../globals/subscribe';
 
 /**
  * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.

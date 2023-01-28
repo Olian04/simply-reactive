@@ -8,7 +8,7 @@ import {
 } from '../globals/contextStack';
 import { getNextAutoKey } from '../globals/autoKey';
 import { deleteMemory, getMemoryOrDefault } from '../globals/memory';
-import { unsubscribeAllDependencies } from '../globals/subscribe.utils';
+import { unsubscribeAllDependencies } from '../globals/subscribe';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
