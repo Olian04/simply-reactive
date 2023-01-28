@@ -33,7 +33,12 @@
     <a id="link-a" href="">Increment A</a>
     <a id="link-b" href="">Increment B</a>
 
+    <pre class="mermaid" id="dep-graph"></pre>
+    <div id="dep-graph-out"></div>
+
     <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+      mermaid.mermaidAPI.initialize({ startOnLoad: false });
       import {
         createQueryAtom,
         createSelector,
@@ -41,6 +46,13 @@
         createEffectGroup,
         visualizeDependencyGraph,
       } from '../cdn/simply-reactive.mjs';
+
+      const renderGraph = async () =>
+        (document.querySelector('#dep-graph-out').innerHTML =
+          await mermaid.mermaidAPI.render(
+            'dep-graph',
+            visualizeDependencyGraph()
+          ));
 
       const A = createQueryAtom({
         key: 'A',
@@ -57,53 +69,25 @@
         get: () => A.get() * B.get(),
       });
 
-      // const Effect = createEffectGroup(
-      //   [
-      //     () => {
-      //       document.getElementById('in-a').value = A.get();
-      //       document.getElementById('out-a').innerText = A.get();
-      //     },
-      //     () => {
-      //       document.getElementById('in-b').value = B.get();
-      //       document.getElementById('out-b').innerText = B.get();
-      //     },
-      //     () => {
-      //       document.getElementById('out-product').innerText = Product.get();
-      //     },
-      //     () => {
-      //       document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-      //       document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
-      //     },
-      //   ],
-      //   { key: 'Effect' }
-      // );
-
-      createEffect(
-        () => {
-          document.getElementById('in-a').value = A.get();
-          document.getElementById('out-a').innerText = A.get();
-        },
-        { key: 'Effect_0' }
-      );
-      createEffect(
-        () => {
-          document.getElementById('in-b').value = B.get();
-          document.getElementById('out-b').innerText = B.get();
-        },
-        { key: 'Effect_1' }
-      );
-      createEffect(
-        () => {
-          document.getElementById('out-product').innerText = Product.get();
-        },
-        { key: 'Effect_2' }
-      );
-      const Effect = createEffect(
-        () => {
-          document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-          document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
-        },
-        { key: 'Effect_3' }
+      const Effect = createEffectGroup(
+        [
+          () => {
+            document.getElementById('in-a').value = A.get();
+            document.getElementById('out-a').innerText = A.get();
+          },
+          () => {
+            document.getElementById('in-b').value = B.get();
+            document.getElementById('out-b').innerText = B.get();
+          },
+          () => {
+            document.getElementById('out-product').innerText = Product.get();
+          },
+          () => {
+            document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
+            document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
+          },
+        ],
+        { key: 'Effect' }
       );
 
       document
@@ -118,24 +102,17 @@
           B.set(parseInt(ev.target.value, 10))
         );
 
-      document
-        .getElementById('destroy-btn')
-        .addEventListener('click', () => Effect.destroy());
+      document.getElementById('destroy-btn').addEventListener('click', () => {
+        Effect.destroy();
+        renderGraph();
+      });
 
-      document
-        .getElementById('restore-btn')
-        .addEventListener('click', () => Effect.restore());
+      document.getElementById('restore-btn').addEventListener('click', () => {
+        Effect.restore();
+        renderGraph();
+      });
 
-      document
-        .getElementById('log-btn')
-        .addEventListener('click', () =>
-          console.log(
-            visualizeDependencyGraph(['auto-keyed', 'name-keyed', 'internal'])
-          )
-        );
-      console.log(
-        visualizeDependencyGraph(['auto-keyed', 'name-keyed', 'internal'])
-      );
+      renderGraph();
     </script>
   </body>
 </html>

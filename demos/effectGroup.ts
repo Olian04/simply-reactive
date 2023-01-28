@@ -21,27 +21,23 @@ const Prod = createSelector({
   get: () => A.get() * B.get(),
 });
 
-createEffectGroup(
-  [
-    () => {
-      console.log('A:', A.get());
-    },
-    () => {
-      console.log('B:', B.get());
-    },
-    () => {
-      console.log('Prod:', Prod.get());
-    },
-    () => {
-      console.log(visualizeDependencyGraph());
-    },
-  ],
-  { key: 'Effect' }
-);
+createEffectGroup([
+  () => {
+    console.log('A:', A.get());
+  },
+  () => {
+    console.log('B:', B.get());
+  },
+  () => {
+    console.log('Prod:', Prod.get());
+  },
+]);
+
+console.log(visualizeDependencyGraph());
 
 const eventEmitter = new EventEmitter();
 eventEmitter.on('tick', () => {
   A.set((v) => v + 1);
 });
 
-setTimeout(() => eventEmitter.emit('tick'), 10000);
+setTimeout(() => eventEmitter.emit('tick'), 2000);
