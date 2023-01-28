@@ -1,9 +1,11 @@
 import type { QueryAtom } from '../types/QueryAtom';
 import type { AtomProps } from '../types/AtomProps';
+import type { Group } from '../types/Group';
+import type { Atom } from '../types/Atom';
 
-import { createAtom } from '../primitives/createAtom';
-import { Atom, createGroup, Group } from '../api.core';
 import { INTERNAL_KEY_PREFIX } from '../globals';
+import { createAtom } from '../primitives/createAtom';
+import { createGroup } from './createGroup';
 
 let ValueGroup: Group<string, Atom<any>>;
 

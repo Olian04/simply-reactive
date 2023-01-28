@@ -6,7 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 /** @type {import('rollup').RollupOptions[]} */
 export default [
   {
-    input: './src/api.web.ts',
+    input: './src/api.ts',
     output: {
       file: './cdn/simply-reactive.js',
       format: 'iife',
@@ -21,7 +21,7 @@ export default [
     ],
   },
   {
-    input: './src/api.web.ts',
+    input: './src/api.ts',
     output: {
       file: './cdn/simply-reactive.min.js',
       format: 'iife',
@@ -37,7 +37,7 @@ export default [
     ],
   },
   {
-    input: './src/api.web.ts',
+    input: './src/api.ts',
     output: {
       file: './cdn/simply-reactive.mjs',
       format: 'es',
@@ -51,7 +51,7 @@ export default [
     ],
   },
   {
-    input: './src/api.web.ts',
+    input: './src/api.ts',
     output: {
       file: './cdn/simply-reactive.min.mjs',
       format: 'es',

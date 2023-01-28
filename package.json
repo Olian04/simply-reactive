@@ -3,8 +3,8 @@
   "version": "4.0.0",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
   "browser": "cdn/simply-reactive.min.mjs",
-  "main": "dist/api.node.js",
-  "types": "dist/api.node.d.ts",
+  "main": "dist/api.js",
+  "types": "dist/api.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "mocha",
