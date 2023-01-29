@@ -28,6 +28,11 @@
       Render Changes
       <input type="checkbox" id="should-render" checked></input>
     </label>
+    <br />
+    <label for="do-update">
+      Do Updates
+      <input type="checkbox" id="do-update" checked></input>
+    </label>
 
     <br />
     <div id="links"></div>
@@ -91,17 +96,48 @@
         { key: 'Render Product' }
       );
 
-      document
-        .getElementById('in-a')
-        .addEventListener('change', (ev) =>
-          A.set(parseInt(ev.target.value, 10))
-        );
+      const EventListeners = createEffectGroup([
+        () => {
+          const listener = (ev) => A.set(parseInt(ev.target.value, 10));
+          document
+            .getElementById('in-a')
+            .addEventListener('change', listener);
+          return () => document
+            .getElementById('in-a')
+            .removeEventListener('change', listener);
+        },
+        () => {
+          const listener = (ev) => B.set(parseInt(ev.target.value, 10));
+          document
+            .getElementById('in-b')
+            .addEventListener('change', listener);
+          return () => document
+            .getElementById('in-b')
+            .removeEventListener('change', listener);
+        }
+      ]);
 
-      document
-        .getElementById('in-b')
-        .addEventListener('change', (ev) =>
-          B.set(parseInt(ev.target.value, 10))
-        );
+      // document
+      //   .getElementById('in-a')
+      //   .addEventListener('change', (ev) =>
+      //     A.set(parseInt(ev.target.value, 10))
+      //   );
+
+      // document
+      //   .getElementById('in-b')
+      //   .addEventListener('change', (ev) =>
+      //     B.set(parseInt(ev.target.value, 10))
+      //   );
+
+      document.getElementById('do-update').addEventListener('click', (ev) => {
+        console.log(ev.target.checked);
+        if (ev.target.checked) {
+          EventListeners.restore();
+        } else {
+          EventListeners.destroy();
+        }
+        renderGraph();
+      });
 
       document.getElementById('should-render').addEventListener('click', (ev) => {
         if (ev.target.checked) {

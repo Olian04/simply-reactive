@@ -5,4 +5,5 @@ export type EffectMemory = MemoryBase & {
   debounceDuration: number;
   dependencies: Set<string>;
   onDependencyChange: (() => void) | null;
+  onDestroy: (() => void) | null;
 };

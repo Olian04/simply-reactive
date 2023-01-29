@@ -1,5 +1,12 @@
+type CleanupCallback = () => void;
+
 export namespace EffectProps {
-  export type Callback = () => void | Promise<void>;
+  export type Callback = () =>
+    | CleanupCallback
+    | void
+    | Promise<CleanupCallback>
+    | Promise<void>;
+
   export type Config = {
     key: string;
     skipInit: boolean;

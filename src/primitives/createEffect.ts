@@ -27,7 +27,15 @@ export const createEffect = (
   const runNotify = async () => {
     unsubscribeAllDependencies(key);
     pushReactiveContext(key);
-    await Promise.resolve(notifyCallback());
+    mem?.onDestroy?.();
+    const maybeCleaupCallback = await Promise.resolve(notifyCallback());
+    if (maybeCleaupCallback) {
+      if (mem) {
+        mem.onDestroy = maybeCleaupCallback;
+      } else {
+        maybeCleaupCallback();
+      }
+    }
     popReactiveContext();
   };
 
@@ -43,8 +51,11 @@ export const createEffect = (
       clearTimeout(mem.notifyTimeoutId);
       deleteMemory(key);
 
+      mem.onDestroy?.();
+
       mem.notifyTimeoutId = undefined;
       mem.onDependencyChange = null;
+      mem.onDestroy = null;
 
       //@ts-ignore
       mem = null;
@@ -66,6 +77,7 @@ export const createEffect = (
             clearTimeout(mem.notifyTimeoutId);
             mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
           },
+          onDestroy: null,
         }),
         { forceStrongMemory: true }
       );
@@ -74,7 +86,7 @@ export const createEffect = (
     },
   };
 
-  if (!config?.skipInit) {
+  if (config?.skipInit !== true) {
     api.restore();
   }
 

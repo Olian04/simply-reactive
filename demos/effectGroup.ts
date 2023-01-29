@@ -2,9 +2,10 @@ import { EventEmitter } from 'stream';
 import {
   createAtom,
   createSelector,
+  createEffect,
   createEffectGroup,
   visualizeDependencyGraph,
-} from '../dist/api';
+} from '../src/api';
 
 const A = createAtom({
   key: 'a',
@@ -21,17 +22,29 @@ const Prod = createSelector({
   get: () => A.get() * B.get(),
 });
 
-createEffectGroup([
-  () => {
-    console.log('A:', A.get());
-  },
-  () => {
-    console.log('B:', B.get());
-  },
-  () => {
-    console.log('Prod:', Prod.get());
-  },
-]);
+// createEffectGroup([
+//   () => {
+//     console.log('A:', A.get());
+//   },
+//   () => {
+//     console.log('B:', B.get());
+//   },
+//   () => {
+//     console.log('Prod:', Prod.get());
+//   },
+// ]);
+
+const Eff = createEffect(() => {
+  console.log(1);
+  return () => console.log(2);
+});
+
+console.log('Destroy');
+Eff.destroy();
+console.log('Restore');
+Eff.restore();
+console.log('Destroy');
+Eff.destroy();
 
 console.log(visualizeDependencyGraph());
 
