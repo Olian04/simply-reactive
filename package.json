@@ -14,6 +14,7 @@
     "demo:count": "ts-node ./demos/count.ts",
     "demo:effectGroup": "ts-node ./demos/effectGroup.ts",
     "demo:group": "ts-node ./demos/group.ts",
+    "demo:selector": "ts-node ./demos/selector.ts",
     "demo:web": "http-server -o ./demos/web.html"
   },
   "keywords": [
