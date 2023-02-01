@@ -37,9 +37,40 @@ export default [
     ],
   },
   {
+    input: './src/api.core.ts',
+    output: {
+      file: './cdn/simply-reactive.core.js',
+      format: 'iife',
+      name: 'simplyReactive',
+    },
+    plugins: [
+      typescript({
+        target: 'es5',
+      }),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: './src/api.core.ts',
+    output: {
+      file: './cdn/simply-reactive.core.min.js',
+      format: 'iife',
+      name: 'simplyReactive',
+    },
+    plugins: [
+      typescript({
+        target: 'es5',
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
+  },
+  {
     input: './src/api.ts',
     output: {
-      file: './cdn/simply-reactive.mjs',
+      file: './cdn/simply-reactive.core.mjs',
       format: 'es',
     },
     plugins: [
@@ -54,6 +85,35 @@ export default [
     input: './src/api.ts',
     output: {
       file: './cdn/simply-reactive.min.mjs',
+      format: 'es',
+    },
+    plugins: [
+      typescript({
+        target: 'es6',
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
+  },
+  {
+    input: './src/api.core.ts',
+    output: {
+      file: './cdn/simply-reactive.core.mjs',
+      format: 'es',
+    },
+    plugins: [
+      typescript({
+        target: 'es6',
+      }),
+      resolve(),
+      commonjs(),
+    ],
+  },
+  {
+    input: './src/api.core.ts',
+    output: {
+      file: './cdn/simply-reactive.core.min.mjs',
       format: 'es',
     },
     plugins: [

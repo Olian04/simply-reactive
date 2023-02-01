@@ -1,6 +1,4 @@
-export { createAtom } from './primitives/createAtom';
-export { createSelector } from './primitives/createSelector';
-export { createEffect } from './primitives/createEffect';
+export * from './api.core';
 
 export { createGroup } from './composites/createGroup';
 export { createEffectGroup } from './composites/createEffectGroup';
@@ -9,11 +7,7 @@ export { createQueryAtom } from './composites/createQueryAtom';
 
 export { visualizeDependencyGraph } from './utils/visualizeDependencyGraph';
 
-export type { Atom } from './types/Atom';
-export type { Selector } from './types/Selector';
-export type { Effect } from './types/Effect';
 export type { Group } from './types/Group';
 export type { EffectGroup } from './types/EffectGroup';
 export type { Resource } from './types/Resource';
-export type { Trait } from './types/traits';
 export type { QueryAtom } from './types/QueryAtom';
