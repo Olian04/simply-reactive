@@ -47,7 +47,7 @@ import { createAtom, createEffect, createSelector } from 'simply-reactive';
 - Counting with Atoms & Selectors: [demos/count.ts](./demos/count.ts)
 - Counting with Groups: [demos/groups.ts](./demos/groups.ts)
 - Interactive web page: [demos/web.html](./demos/web.html)
-- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/nsa53d1w/>
+- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/20crm4ah/>
 
 ## Documentation
 
