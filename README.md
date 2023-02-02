@@ -16,7 +16,11 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 [`npm i simply-reactive`](https://www.npmjs.com/package/simply-reactive)
 
 ```ts
-import { createAtom, createEffect, createSelector } from 'simply-reactive';
+import {
+  createAtom,
+  createEffect,
+  createSelector,
+} from 'simply-reactive';
 ```
 
 ### CDN
@@ -38,7 +42,11 @@ import { createAtom, createEffect, createSelector } from 'simply-reactive';
 ```html
 <script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.cjs"></script>
 <script>
-  const { createAtom, createSelector, createEffect } = simplyReactive;
+  const {
+    createAtom,
+    createSelector,
+    createEffect,
+  } = simplyReactive;
 </script>
 ```
 
