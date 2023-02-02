@@ -94,7 +94,7 @@ console.log(`Count: ${DoubleCount.get()}`);
 Effects are side effects produced by changes to the reactive graph.
 
 ```ts
-const LogEffect = createEffect(() => {
+createEffect(() => {
   console.log(`${DoubleCount.get()} is twice as big as ${Count.get()}`);
 });
 
@@ -134,7 +134,7 @@ console.log(DoubleCountGroup.find(2).get()); // 0
 Effect Groups are collections of effects used for enabeling and disabeling multiple effects at once.
 
 ```ts
-const EffectGroup = createEffectGroup([
+createEffectGroup([
   () => (document.getElementById('in-a').value = A.get()),
   () => (document.getElementById('in-b').value = B.get()),
   () => (document.getElementById('out-a').innerText = A.get()),

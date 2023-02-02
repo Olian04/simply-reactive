@@ -3,9 +3,8 @@ import {
   createAtom,
   createSelector,
   createEffect,
-  createEffectGroup,
   visualizeDependencyGraph,
-} from '../src/api';
+} from '../dist/api';
 
 const A = createAtom({
   key: 'a',

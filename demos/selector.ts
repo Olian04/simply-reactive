@@ -1,7 +1,10 @@
-import { createAtom, createSelector } from '../src/api';
-import { getAllLivingMemory } from '../src/globals/memory';
-import { ImplementsGet } from '../src/types/traits/ImplementsGet';
-import { ImplementsSubscribe } from '../src/types/traits/ImplementsSubscribe';
+import {
+  createAtom,
+  createSelector,
+  ImplementsGet,
+  ImplementsSubscribe,
+} from '../dist/api';
+import { getAllLivingMemory } from '../dist/globals/memory';
 
 const Count = createAtom({
   default: 0,
