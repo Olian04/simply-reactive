@@ -1,10 +1,10 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
+import { getAllLivingMemory } from '../../src/globals/memory';
 import { createAtom } from '../../src/primitives/createAtom';
 import { createEffect } from '../../src/primitives/createEffect';
 import { createResource } from '../../src/composites/createResource';
-import { getAllLivingMemory } from '../../src/globals';
 
 describe('createResource', () => {
   it('should create exactly two memory entries per resource', () => {

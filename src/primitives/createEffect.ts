@@ -3,13 +3,12 @@ import type { EffectMemory } from '../types/EffectMemory';
 import type { EffectProps } from '../types/EffectProps';
 
 import {
-  deleteMemory,
-  getMemoryOrDefault,
-  getNextAutoKey,
-  popReactiveContext,
   pushReactiveContext,
-  unsubscribeAllDependencies,
-} from '../globals';
+  popReactiveContext,
+} from '../globals/contextStack';
+import { getNextAutoKey } from '../globals/autoKey';
+import { deleteMemory, getMemoryOrDefault } from '../globals/memory';
+import { unsubscribeAllDependencies } from '../globals/subscribe';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
@@ -25,6 +24,21 @@ export const createEffect = (
   const key = config?.key || getNextAutoKey();
   let mem: EffectMemory | null = null;
 
+  const runNotify = async () => {
+    unsubscribeAllDependencies(key);
+    pushReactiveContext(key);
+    mem?.onDestroy?.();
+    const maybeCleaupCallback = await Promise.resolve(notifyCallback());
+    if (maybeCleaupCallback) {
+      if (mem) {
+        mem.onDestroy = maybeCleaupCallback;
+      } else {
+        maybeCleaupCallback();
+      }
+    }
+    popReactiveContext();
+  };
+
   const api = {
     key,
     destroy: () => {
@@ -37,41 +51,42 @@ export const createEffect = (
       clearTimeout(mem.notifyTimeoutId);
       deleteMemory(key);
 
+      mem.onDestroy?.();
+
       mem.notifyTimeoutId = undefined;
       mem.onDependencyChange = null;
+      mem.onDestroy = null;
 
       //@ts-ignore
       mem = null;
     },
     restore: () => {
-      mem = getMemoryOrDefault<EffectMemory>(key, () => ({
+      mem = getMemoryOrDefault<EffectMemory>(
         key,
-        notifyTimeoutId: undefined,
-        debounceDuration: config?.debounceDuration ?? 0,
-        dependencies: new Set<string>(),
-        onDependencyChange: () => {
-          if (!mem) return;
-          if (mem.debounceDuration === -1) {
-            runNotify();
-            return;
-          }
-          clearTimeout(mem.notifyTimeoutId);
-          mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
-        },
-      }));
-
-      const runNotify = async () => {
-        unsubscribeAllDependencies(key);
-        pushReactiveContext(key);
-        await Promise.resolve(notifyCallback());
-        popReactiveContext();
-      };
+        () => ({
+          key,
+          notifyTimeoutId: undefined,
+          debounceDuration: config?.debounceDuration ?? 0,
+          dependencies: new Set<string>(),
+          onDependencyChange: () => {
+            if (!mem) return;
+            if (mem.debounceDuration === -1) {
+              runNotify();
+              return;
+            }
+            clearTimeout(mem.notifyTimeoutId);
+            mem.notifyTimeoutId = setTimeout(runNotify, mem.debounceDuration);
+          },
+          onDestroy: null,
+        }),
+        { forceStrongMemory: true }
+      );
 
       runNotify();
     },
   };
 
-  if (!config?.skipInit) {
+  if (config?.skipInit !== true) {
     api.restore();
   }
 

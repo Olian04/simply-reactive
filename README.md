@@ -1,9 +1,9 @@
-[![](https://img.shields.io/npm/v/simply-reactive)](https://www.npmjs.com/package/simply-reactive)
-![](https://img.shields.io/npm/types/simply-reactive)
-[![](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
-[![](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
-[![](https://img.shields.io/circleci/build/github/Olian04/simply-reactive/main?label=test%20%26%20build)](https://app.circleci.com/pipelines/github/Olian04/simply-reactive)
-[![](https://img.shields.io/npm/l/simply-reactive)](./LICENSE)
+[![Latest released version](https://img.shields.io/npm/v/simply-reactive)](https://www.npmjs.com/package/simply-reactive)
+![Type support](https://img.shields.io/npm/types/simply-reactive)
+[![Downloads from NPM](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
+[![Downloads from JSDeliver](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
+[![Build status of main branch](https://img.shields.io/circleci/build/github/Olian04/simply-reactive/main?label=test%20%26%20build)](https://app.circleci.com/pipelines/github/Olian04/simply-reactive)
+[![MIT licensed](https://img.shields.io/npm/l/simply-reactive)](./LICENSE)
 
 # simply-reactive
 
@@ -15,9 +15,13 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 
 [`npm i simply-reactive`](https://www.npmjs.com/package/simply-reactive)
 
+```ts
+import { createAtom, createEffect, createSelector } from 'simply-reactive';
+```
+
 ### CDN
 
-#### ESModule
+#### ESM
 
 ```html
 <script type="module">
@@ -29,10 +33,10 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 </script>
 ```
 
-#### IIFE
+#### CJS _(deprecated)_
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.cjs"></script>
 <script>
   const { createAtom, createSelector, createEffect } = simplyReactive;
 </script>
@@ -56,7 +60,7 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 `Simply-reactive` also provides four reactive composites:
 
 - [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
-- [Effect Groups](#effect-Group) are collections of effects used for enabeling and disabeling multiple effects at once.
+- [Effect Groups](#effect-group) are collections of effects used for enabeling and disabeling multiple effects at once.
 - [Resources](#resource) are selectors specifically optimized for data fetching.
 - [Query Atoms](#query-atom) are atoms with two way databindings to query search parameters.
 
@@ -90,7 +94,7 @@ console.log(`Count: ${DoubleCount.get()}`);
 Effects are side effects produced by changes to the reactive graph.
 
 ```ts
-const LogEffect = createEffect(() => {
+createEffect(() => {
   console.log(`${DoubleCount.get()} is twice as big as ${Count.get()}`);
 });
 
@@ -130,7 +134,7 @@ console.log(DoubleCountGroup.find(2).get()); // 0
 Effect Groups are collections of effects used for enabeling and disabeling multiple effects at once.
 
 ```ts
-const EffectGroup = createEffectGroup([
+createEffectGroup([
   () => (document.getElementById('in-a').value = A.get()),
   () => (document.getElementById('in-b').value = B.get()),
   () => (document.getElementById('out-a').innerText = A.get()),

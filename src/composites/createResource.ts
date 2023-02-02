@@ -1,6 +1,7 @@
 import type { Resource } from '../types/Resource';
 
-import { getNextAutoKey } from '../globals';
+import { getNextAutoKey } from '../globals/autoKey';
+import { INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../primitives/createSelector';
 
@@ -11,7 +12,7 @@ export const createResource = <T extends Promise<unknown>>(props: {
   const key = props.key || getNextAutoKey();
 
   const RequestInvalidator = createAtom({
-    key: `${key}_invalidator`,
+    key: `${INTERNAL_KEY_PREFIX}${key}_invalidator`,
     default: 0,
   });
 

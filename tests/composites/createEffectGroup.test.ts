@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { getAllLivingMemory } from '../../src/globals';
+import { getAllLivingMemory } from '../../src/globals/memory';
 import { createEffectGroup } from '../../src/composites/createEffectGroup';
 
 describe('createEffectGroup', () => {

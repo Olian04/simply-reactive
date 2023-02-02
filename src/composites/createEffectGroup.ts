@@ -1,7 +1,7 @@
 import type { EffectGroup } from '../types/EffectGroup';
 import type { EffectProps } from '../types/EffectProps';
 
-import { getNextAutoKey } from '../globals';
+import { getNextAutoKey } from '../globals/autoKey';
 import { createEffect } from '../primitives/createEffect';
 
 export const createEffectGroup = (
@@ -12,7 +12,7 @@ export const createEffectGroup = (
 
   const effects = effectCallbacks.map((cb, index) =>
     createEffect(cb, {
-      key: `${key}_effect_${index}`,
+      key: `${key}_${index}`,
       debounceDuration: config?.debounceDuration,
       skipInit: config?.skipInit,
     })

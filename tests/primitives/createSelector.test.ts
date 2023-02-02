@@ -1,10 +1,10 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
+import { getAllLivingMemory } from '../../src/globals/memory';
 import { createAtom } from '../../src/primitives/createAtom';
 import { createEffect } from '../../src/primitives/createEffect';
 import { createSelector } from '../../src/primitives/createSelector';
-import { getAllLivingMemory } from '../../src/globals';
 
 describe('createSelector', () => {
   it('should create exactly one memory entry per selector', () => {

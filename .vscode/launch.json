@@ -10,6 +10,34 @@
       "command": "npm run test",
       "name": "Run Tests",
       "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run demo:effectGroup",
+      "name": "Run Demo: effectGroup",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run demo:count",
+      "name": "Run Demo: count",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run demo:selector",
+      "name": "Run Demo: selector",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run demo:group",
+      "name": "Run Demo: group",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }

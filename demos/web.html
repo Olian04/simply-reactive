@@ -24,15 +24,25 @@
     </lable>
 
     <br />
-    <button id="restore-btn">Start</button>
-    <button id="destroy-btn">Stop</button>
+    <label for="should-render">
+      Render Changes
+      <input type="checkbox" id="should-render" checked></input>
+    </label>
+    <br />
+    <label for="do-update">
+      Do Updates
+      <input type="checkbox" id="do-update" checked></input>
+    </label>
 
     <br />
     <div id="links"></div>
-    <a id="link-a" href="">Increment A</a>
-    <a id="link-b" href="">Increment B</a>
+
+    <pre class="mermaid" id="dep-graph"></pre>
+    <div id="dep-graph-out"></div>
 
     <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
+      mermaid.mermaidAPI.initialize({ startOnLoad: false });
       import {
         createQueryAtom,
         createSelector,
@@ -41,57 +51,96 @@
         visualizeDependencyGraph,
       } from '../cdn/simply-reactive.mjs';
 
+      const renderGraph = async () =>
+        (document.querySelector('#dep-graph-out').innerHTML =
+          await mermaid.mermaidAPI.render(
+            'dep-graph',
+            visualizeDependencyGraph()
+          ));
+
       const A = createQueryAtom({
-        key: 'a',
+        key: 'Atom A',
         default: 2,
       });
 
       const B = createQueryAtom({
-        key: 'b',
+        key: 'Atom B',
         default: 3,
       });
 
-      const Prod = createSelector({
+      const Product = createSelector({
+        key: 'Product',
         get: () => A.get() * B.get(),
       });
 
-      const Effect = createEffectGroup([
+      const RenderA = createEffect(
         () => {
           document.getElementById('in-a').value = A.get();
           document.getElementById('out-a').innerText = A.get();
         },
+        { key: 'Render A' }
+      );
+
+      const RenderB = createEffect(
         () => {
           document.getElementById('in-b').value = B.get();
           document.getElementById('out-b').innerText = B.get();
         },
+        { key: 'Render B' }
+      );
+
+      const RenderProduct = createEffect(
         () => {
-          document.getElementById('out-product').innerText = Prod.get();
+          document.getElementById('out-product').innerText = Product.get();
+        },
+        { key: 'Render Product' }
+      );
+
+      const EventListeners = createEffectGroup([
+        () => {
+          const listener = (ev) => A.set(parseInt(ev.target.value, 10));
+          document
+            .getElementById('in-a')
+            .addEventListener('change', listener);
+          return () => document
+            .getElementById('in-a')
+            .removeEventListener('change', listener);
         },
         () => {
-          document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-          document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
-        },
+          const listener = (ev) => B.set(parseInt(ev.target.value, 10));
+          document
+            .getElementById('in-b')
+            .addEventListener('change', listener);
+          return () => document
+            .getElementById('in-b')
+            .removeEventListener('change', listener);
+        }
       ]);
 
-      document
-        .getElementById('in-a')
-        .addEventListener('change', (ev) =>
-          A.set(parseInt(ev.target.value, 10))
-        );
+      document.getElementById('do-update').addEventListener('click', (ev) => {
+        console.log(ev.target.checked);
+        if (ev.target.checked) {
+          EventListeners.restore();
+        } else {
+          EventListeners.destroy();
+        }
+        renderGraph();
+      });
 
-      document
-        .getElementById('in-b')
-        .addEventListener('change', (ev) =>
-          B.set(parseInt(ev.target.value, 10))
-        );
+      document.getElementById('should-render').addEventListener('click', (ev) => {
+        if (ev.target.checked) {
+          RenderA.restore();
+          RenderB.restore();
+          RenderProduct.restore();
+        } else {
+          RenderA.destroy();
+          RenderB.destroy();
+          RenderProduct.destroy();
+        }
+        renderGraph();
+      });
 
-      document
-        .getElementById('destroy-btn')
-        .addEventListener('click', () => Effect.destroy());
-
-      document
-        .getElementById('restore-btn')
-        .addEventListener('click', () => Effect.restore());
+      renderGraph();
     </script>
   </body>
 </html>
