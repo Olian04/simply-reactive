@@ -31,8 +31,8 @@ import {
 <script type="module">
   import {
     createAtom,
-    createSelector,
     createEffect,
+    createSelector,
   } from 'https://cdn.jsdelivr.net/npm/simply-reactive';
 </script>
 ```
@@ -44,8 +44,8 @@ import {
 <script>
   const {
     createAtom,
-    createSelector,
     createEffect,
+    createSelector,
   } = simplyReactive;
 </script>
 ```
