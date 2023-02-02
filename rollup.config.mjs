@@ -1,7 +1,7 @@
-import typescript from 'rollup-plugin-typescript';
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import { terser } from 'rollup-plugin-terser';
+import typescript from '@rollup/plugin-typescript';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
 
 /** @type {import('rollup').RollupOptions[]} */
 const es6Composites = [
@@ -14,6 +14,11 @@ const es6Composites = [
     plugins: [
       typescript({
         target: 'es6',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
@@ -33,6 +38,11 @@ const es6Core = [
     plugins: [
       typescript({
         target: 'es6',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
@@ -52,6 +62,11 @@ const es6Utils = [
     plugins: [
       typescript({
         target: 'es6',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
@@ -71,6 +86,11 @@ const es6Full = [
     plugins: [
       typescript({
         target: 'es6',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
@@ -94,6 +114,11 @@ const es5 = [
     plugins: [
       typescript({
         target: 'es5',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
@@ -110,6 +135,11 @@ const es5 = [
     plugins: [
       typescript({
         target: 'es5',
+        module: 'esnext',
+        compilerOptions: {
+          declaration: false,
+          sourceMap: false,
+        },
       }),
       resolve(),
       commonjs(),
