@@ -21,14 +21,21 @@
     {
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run demo:effectGroup",
+      "command": "npm run demo:count",
       "name": "Run Demo: count",
       "skipFiles": ["<node_internals>/**"]
     },
     {
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run demo:effectGroup",
+      "command": "npm run demo:selector",
+      "name": "Run Demo: selector",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run demo:group",
       "name": "Run Demo: group",
       "skipFiles": ["<node_internals>/**"]
     }

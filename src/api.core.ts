@@ -5,4 +5,3 @@ export { createEffect } from './primitives/createEffect';
 export type { Atom } from './types/Atom';
 export type { Selector } from './types/Selector';
 export type { Effect } from './types/Effect';
-export type { Trait } from './types/traits';
