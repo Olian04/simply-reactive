@@ -1,6 +1,6 @@
 import type { Selector } from '../types/Selector';
-import type { SelectorMemory } from '../types/SelectorMemory';
-import type { SelectorProps } from '../types/SelectorProps';
+import type { SelectorMemory } from '../types/memory/SelectorMemory';
+import type { SelectorProps } from '../types/props/SelectorProps';
 
 import {
   registerDependency,
