@@ -40,7 +40,7 @@ import {
 #### CJS _(deprecated)_
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.cjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
 <script>
   const {
     createAtom,
