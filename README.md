@@ -56,7 +56,7 @@ import {
 - Counting with Groups: [demos/groups.ts](./demos/groups.ts)
 - Interactive web page: [demos/web.html](./demos/web.html)
 - With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/20crm4ah/>
-* With [brynja](https://github.com/Olian04/brynja): <https://jsfiddle.net/rb4xc25f/47/>
+- With [brynja](https://github.com/Olian04/brynja): <https://jsfiddle.net/rb4xc25f/47/>
 
 ## Documentation
 
