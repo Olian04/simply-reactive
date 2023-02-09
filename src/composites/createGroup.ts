@@ -2,8 +2,7 @@ import type { ImplementsGet } from '../types/traits/ImplementsGet';
 import type { ImplementsSubscribe } from '../types/traits/ImplementsSubscribe';
 import type { Group } from '../types/Group';
 
-import { getNextAutoKey } from '../globals/autoKey';
-import { INTERNAL_KEY_PREFIX } from '../globals/constants';
+import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
 import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../primitives/createSelector';
 
@@ -17,7 +16,7 @@ export const createGroup = <
   const key = props.key || getNextAutoKey();
 
   const Container = createAtom({
-    key: `${INTERNAL_KEY_PREFIX}${key}_group_container`,
+    key: toInternalKey(`${key}_group_container`),
     default: {} as { [k in Id]: Value },
   });
 

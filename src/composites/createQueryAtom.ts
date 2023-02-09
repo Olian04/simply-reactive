@@ -1,11 +1,11 @@
 import type { QueryAtom } from '../types/QueryAtom';
-import type { AtomProps } from '../types/AtomProps';
+import type { AtomProps } from '../types/props/AtomProps';
 import type { Group } from '../types/Group';
 import type { Atom } from '../types/Atom';
 
-import { INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { createAtom } from '../primitives/createAtom';
 import { createGroup } from './createGroup';
+import { toInternalKey } from '../globals/autoKey';
 
 let ValueGroup: Group<string, Atom<any>>;
 
@@ -16,7 +16,7 @@ export const createQueryAtom = <T = string | number>(
 
   if (!ValueGroup) {
     ValueGroup = createGroup({
-      key: `${INTERNAL_KEY_PREFIX}_query_atoms`,
+      key: toInternalKey('query_atoms'),
       getDefault: (id) =>
         createAtom({
           key: id,

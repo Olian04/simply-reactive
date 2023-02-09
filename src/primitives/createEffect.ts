@@ -1,6 +1,6 @@
 import type { Effect } from '../types/Effect';
-import type { EffectMemory } from '../types/EffectMemory';
-import type { EffectProps } from '../types/EffectProps';
+import type { EffectMemory } from '../types/memory/EffectMemory';
+import type { EffectProps } from '../types/props/EffectProps';
 
 import {
   pushReactiveContext,

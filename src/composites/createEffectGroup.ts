@@ -1,5 +1,5 @@
 import type { EffectGroup } from '../types/EffectGroup';
-import type { EffectProps } from '../types/EffectProps';
+import type { EffectProps } from '../types/props/EffectProps';
 
 import { getNextAutoKey } from '../globals/autoKey';
 import { createEffect } from '../primitives/createEffect';

@@ -1,7 +1,9 @@
-import { AUTO_KEY_PREFIX } from './constants';
+import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from './constants';
 
-export const getNextAutoKey = (
-  (nextAutoKey = 1) =>
-  () =>
-    `${AUTO_KEY_PREFIX}_${nextAutoKey++}`
-)();
+let nextAutoKey = 1;
+
+export const getNextAutoKey = (): `${typeof AUTO_KEY_PREFIX}_${number}` =>
+  `${AUTO_KEY_PREFIX}_${nextAutoKey++}`;
+
+export const toInternalKey = <T extends string>(key: T): `${typeof INTERNAL_KEY_PREFIX}_${T}` =>
+  `${INTERNAL_KEY_PREFIX}_${key}`;
