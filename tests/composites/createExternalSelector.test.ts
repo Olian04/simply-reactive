@@ -2,29 +2,34 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
 import { getAllLivingMemory } from '../../src/globals/memory';
-import { createAtom } from '../../src/primitives/createAtom';
-import { createEffect } from '../../src/primitives/createEffect';
+import { createSelector } from '../../src/primitives/createSelector';
 import { createExternalSelector } from '../../src/composites/createExternalSelector';
+import { createAtom } from '../../src/primitives/createAtom';
 
 describe('createExternalSelector', () => {
   it('should create exactly two memory entries per external selector', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(getAllLivingMemory()).length;
+      const start = Object.keys(getAllLivingMemory()).length;
 
       const A = createExternalSelector({
         default: 0,
         setup: set => {},
       });
 
-      const after = Object.keys(getAllLivingMemory()).length;
+      const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(2);
+      A.destroy();
+
+      const afterDestruction = Object.keys(getAllLivingMemory()).length;
+
+      expect(afterCreation - start).to.equal(2);
+      expect(afterDestruction - start).to.equal(1);
     }
   });
 
   it('should reuse the same memory if the same key is used again', () => {
     for (let i = 0; i < 10; i++) {
-      const before = Object.keys(getAllLivingMemory()).length;
+      const start = Object.keys(getAllLivingMemory()).length;
 
       const A = createExternalSelector({
         default: 0,
@@ -36,9 +41,14 @@ describe('createExternalSelector', () => {
         setup: set => {},
       });
 
-      const after = Object.keys(getAllLivingMemory()).length;
+      const afterCreation = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(2);
+      A.destroy();
+
+      const afterDestruction = Object.keys(getAllLivingMemory()).length;
+
+      expect(afterCreation - start).to.equal(2);
+      expect(afterDestruction - start).to.equal(1);
     }
   });
 
@@ -47,27 +57,19 @@ describe('createExternalSelector', () => {
       const A = createExternalSelector({
         default: 0,
         setup: set => {
-          setTimeout(() => set(1), 0);
+          setImmediate(() => {
+            set(1);
+          });
         },
       });
 
-      const awaitable = new Promise<void>((resolve, reject) => {
-        const Effect = createEffect(async () => {
-          if ((await A.get()) === 1) return;
-          resolve();
-        });
-        setTimeout(() => {
-          Effect.destroy();
-          reject(new Error('Timeout'));
-        }, 100);
+      const B = createSelector({
+        get: () => A.get() * 2,
       });
 
-      try {
-        await awaitable;
-      } catch {
-        expect.fail('Never notified change');
-      }
-      expect(await A.get()).to.equal(1);
+      await new Promise(resolve => setTimeout(resolve, 10));
+      expect(B.get()).to.equal(2);
+      expect(A.get()).to.equal(1);
     }
   });
 });
