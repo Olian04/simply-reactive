@@ -12,7 +12,7 @@ export const createBackFlow = <T>(props: {
   to: ImplementsKey & ImplementsSet<T>,
 }) => createEffect(() => {
   const v = props.from.get();
-  
+
   const visitedKeys: { [k in string]: Boolean } = {};
   const keyQueue = [props.from.key];
   while (keyQueue.length > 0) {
@@ -21,9 +21,10 @@ export const createBackFlow = <T>(props: {
       throw new Error(`Simply-reactive: Failed to construct back flow from ${props.from.key} to ${props.to.key} because it would result in a circular dependency.`);
     }
     visitedKeys[mem.key] = true;
-    keyQueue.concat(
-      [...mem.subscribers.values()].filter(subKey => !visitedKeys[subKey])
-    );
+    for (let subKey of mem.subscribers.values()) {
+      if (visitedKeys[subKey]) continue;
+      keyQueue.push(subKey);
+    }
   }
 
   props.to.set(v);
