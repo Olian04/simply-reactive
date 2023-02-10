@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { AssertionError, expect } from 'chai';
 
 import { getAllLivingMemory } from '../../src/globals/memory';
 import { createAtom } from '../../src/primitives/createAtom';
@@ -65,15 +65,15 @@ describe('createBackFlow', () => {
         default: 1,
       });
 
-      createBackFlow({
+      const BF = createBackFlow({
         from: B,
         to: A,
       });
 
-
       await new Promise(resolve => setTimeout(resolve, 10));
       expect(B.get()).to.equal(1);
       expect(A.get()).to.equal(1);
+      BF.destroy();
     }
   });
 
@@ -86,12 +86,19 @@ describe('createBackFlow', () => {
         get: () => A.get(),
       });
 
-      const BF = createBackFlow({
-        from: B,
-        to: A,
-      });
-      // expect.fail('TODO: Make sure this test can fail!!!');
+      try {
+        const BF = createBackFlow({
+          from: B,
+          to: A,
+        });
 
+        await new Promise(resolve => setTimeout(resolve, 10));
+        expect.fail('Allowed circular dependency.');
+      } catch (err) {
+        if (err instanceof AssertionError) {
+          throw err;
+        }
+      }
     }
   });
 });
