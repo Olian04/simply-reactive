@@ -3,6 +3,7 @@ export { createEffectGroup } from './composites/createEffectGroup';
 export { createResource } from './composites/createResource';
 export { createQueryAtom } from './composites/createQueryAtom';
 export { createExternalSelector } from './composites/createExternalSelector';
+export { createBackFlow } from './composites/createBackFlow';
 
 export type { Group } from './types/Group';
 export type { EffectGroup } from './types/EffectGroup';
