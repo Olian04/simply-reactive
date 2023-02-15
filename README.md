@@ -55,8 +55,9 @@ import {
 - Counting with Atoms & Selectors: [demos/count.ts](./demos/count.ts)
 - Counting with Groups: [demos/groups.ts](./demos/groups.ts)
 - Interactive web page: [demos/web.html](./demos/web.html)
-- With [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/20crm4ah/>
-- With [brynja](https://github.com/Olian04/brynja): <https://jsfiddle.net/rb4xc25f/47/>
+- Simple web app: https://jsfiddle.net/06xo19v2/39
+- Simple web app with [easy-render](https://github.com/Olian04/easy-render): <https://jsfiddle.net/20crm4ah/>
+- Simple web app with [brynja](https://github.com/Olian04/brynja): <https://jsfiddle.net/rb4xc25f/47/>
 
 ## Documentation
 
