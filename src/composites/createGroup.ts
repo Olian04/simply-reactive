@@ -16,15 +16,25 @@ export const createGroup = <
 
   const Container = createAtom({
     key,
-    default: {} as { [k in Id]: Value },
+    default: {} as {
+      [k in Id]: Value;
+    },
   });
 
   return {
     key,
     subscribe: Container.subscribe,
-    get: () => Object.values(Container.get()),
+    get: () =>
+      Object.keys(Container.get()).map((k) => {
+        const maybeNum = parseFloat(k);
+        if (!Number.isNaN(maybeNum) && `${maybeNum}`.length === `${k}`.length) {
+          return maybeNum as Id;
+        } else {
+          return k as Id;
+        }
+      }),
     find: (id) => {
-      if (!Container.get()[id]) {
+      if (!(id in Container.get())) {
         Container.set((container) => {
           container[id] = props.getDefault(id);
           return container;
@@ -33,7 +43,7 @@ export const createGroup = <
       return Container.get()[id];
     },
     remove: (id) => {
-      if (Container.get()[id]) {
+      if (id in Container.get()) {
         Container.set((container) => {
           delete container[id];
           return container;
