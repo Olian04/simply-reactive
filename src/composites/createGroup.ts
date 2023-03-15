@@ -6,46 +6,39 @@ import { getNextAutoKey } from '../globals/autoKey';
 import { createAtom } from '../primitives/createAtom';
 
 export const createGroup = <
-  Id extends string | number,
   Value extends ImplementsSubscribe & ImplementsGet<unknown>
 >(props: {
   key?: string;
-  getDefault: (id: Id) => Value;
-}): Group<Id, Value> => {
+  getDefault: (id: string) => Value;
+}): Group<Value> => {
   const key = props.key || getNextAutoKey();
 
   const Container = createAtom({
     key,
     default: {} as {
-      [k in Id]: Value;
+      [k in string]: Value;
     },
   });
 
   return {
     key,
     subscribe: Container.subscribe,
-    get: () =>
-      Object.keys(Container.get()).map((k) => {
-        const maybeNum = parseFloat(k);
-        if (!Number.isNaN(maybeNum) && `${maybeNum}`.length === `${k}`.length) {
-          return maybeNum as Id;
-        } else {
-          return k as Id;
-        }
-      }),
+    get: () => Object.keys(Container.get()),
     find: (id) => {
-      if (!(id in Container.get())) {
+      const strId = String(id);
+      if (!(strId in Container.get())) {
         Container.set((container) => {
-          container[id] = props.getDefault(id);
+          container[strId] = props.getDefault(strId);
           return container;
         });
       }
-      return Container.get()[id];
+      return Container.get()[strId];
     },
     remove: (id) => {
-      if (id in Container.get()) {
+      const strId = String(id);
+      if (strId in Container.get()) {
         Container.set((container) => {
-          delete container[id];
+          delete container[strId];
           return container;
         });
       }
