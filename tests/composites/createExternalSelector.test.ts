@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { getAllLivingMemory } from '../../src/globals/memory';
 import { createSelector } from '../../src/primitives/createSelector';
 import { createExternalSelector } from '../../src/composites/createExternalSelector';
-import { createAtom } from '../../src/primitives/createAtom';
 
 describe('createExternalSelector', () => {
   it('should create exactly two memory entries per external selector', () => {
@@ -13,7 +12,7 @@ describe('createExternalSelector', () => {
 
       const A = createExternalSelector({
         default: 0,
-        setup: set => {},
+        setup: (set) => {},
       });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
@@ -33,12 +32,12 @@ describe('createExternalSelector', () => {
 
       const A = createExternalSelector({
         default: 0,
-        setup: set => {},
+        setup: (set) => {},
       });
       const B = createExternalSelector({
         key: A.key,
         default: 0,
-        setup: set => {},
+        setup: (set) => {},
       });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
@@ -56,7 +55,7 @@ describe('createExternalSelector', () => {
     for (let i = 0; i < 10; i++) {
       const A = createExternalSelector({
         default: 0,
-        setup: set => {
+        setup: (set) => {
           setImmediate(() => {
             set(1);
           });
@@ -67,7 +66,7 @@ describe('createExternalSelector', () => {
         get: () => A.get() * 2,
       });
 
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       expect(B.get()).to.equal(2);
       expect(A.get()).to.equal(1);
     }

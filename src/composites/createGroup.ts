@@ -2,9 +2,8 @@ import type { ImplementsGet } from '../types/traits/ImplementsGet';
 import type { ImplementsSubscribe } from '../types/traits/ImplementsSubscribe';
 import type { Group } from '../types/Group';
 
-import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
+import { getNextAutoKey } from '../globals/autoKey';
 import { createAtom } from '../primitives/createAtom';
-import { createSelector } from '../primitives/createSelector';
 
 export const createGroup = <
   Id extends string | number,
@@ -16,23 +15,13 @@ export const createGroup = <
   const key = props.key || getNextAutoKey();
 
   const Container = createAtom({
-    key: toInternalKey(`${key}_group_container`),
+    key,
     default: {} as { [k in Id]: Value },
-  });
-
-  const SubscribeTarget = createSelector({
-    key: key,
-    get: () => {
-      const arr = Container.get(); // Subscribe to the container
-      Object.values<Value>(arr).forEach((V) => {
-        V.get(); // Subscribe to each value in the container
-      });
-    },
   });
 
   return {
     key,
-    subscribe: SubscribeTarget.subscribe,
+    subscribe: Container.subscribe,
     get: () => Object.values(Container.get()),
     find: (id) => {
       if (!Container.get()[id]) {

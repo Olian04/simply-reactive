@@ -7,7 +7,7 @@ import { createEffect } from '../../src/primitives/createEffect';
 import { createGroup } from '../../src/composites/createGroup';
 
 describe('createGroup', () => {
-  it('should create exactly two memory entries per resource', () => {
+  it('should create exactly one memory entry per resource', () => {
     for (let i = 0; i < 10; i++) {
       const before = Object.keys(getAllLivingMemory()).length;
 
@@ -20,7 +20,7 @@ describe('createGroup', () => {
 
       const after = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(2);
+      expect(after - before).to.equal(1);
     }
   });
 
@@ -44,7 +44,7 @@ describe('createGroup', () => {
 
       const after = Object.keys(getAllLivingMemory()).length;
 
-      expect(after - before).to.equal(2);
+      expect(after - before).to.equal(1);
     }
   });
 

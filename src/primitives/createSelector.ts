@@ -12,7 +12,7 @@ import { getMemoryOrDefault } from '../globals/memory';
 import { unsubscribeAllDependencies } from '../globals/subscribe';
 
 /**
- * Returns a lazy evaluated synchronous selector that only re-evaluates when the values of its dependencies change.
+ * Returns a lazily evaluated selector that only re-evaluates when the values of its dependencies change.
  */
 export const createSelector = <T>(props: SelectorProps<T>): Selector<T> => {
   const key = props?.key || getNextAutoKey();

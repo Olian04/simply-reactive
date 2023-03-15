@@ -35,7 +35,6 @@
     </label>
 
     <br />
-    <div id="links"></div>
 
     <pre class="mermaid" id="dep-graph"></pre>
     <div id="dep-graph-out"></div>
@@ -44,7 +43,7 @@
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@9/dist/mermaid.esm.min.mjs';
       mermaid.mermaidAPI.initialize({ startOnLoad: false });
       import {
-        createQueryAtom,
+        createAtom,
         createSelector,
         createEffect,
         createEffectGroup,
@@ -58,12 +57,12 @@
             visualizeDependencyGraph()
           ));
 
-      const A = createQueryAtom({
+      const A = createAtom({
         key: 'Atom A',
         default: 2,
       });
 
-      const B = createQueryAtom({
+      const B = createAtom({
         key: 'Atom B',
         default: 3,
       });
@@ -118,7 +117,6 @@
       ]);
 
       document.getElementById('do-update').addEventListener('click', (ev) => {
-        console.log(ev.target.checked);
         if (ev.target.checked) {
           EventListeners.restore();
         } else {

@@ -1,7 +1,6 @@
 import type { Resource } from '../types/Resource';
 
 import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
-import { INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../primitives/createSelector';
 
