@@ -16,11 +16,7 @@ Simply-reactive is a [small & dependency free](https://bundlephobia.com/package/
 [`npm i simply-reactive`](https://www.npmjs.com/package/simply-reactive)
 
 ```ts
-import {
-  createAtom,
-  createEffect,
-  createSelector,
-} from 'simply-reactive';
+import { createAtom, createEffect, createSelector } from 'simply-reactive';
 ```
 
 ### CDN
@@ -37,16 +33,12 @@ import {
 </script>
 ```
 
-#### CJS _(deprecated)_
+#### UMD
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/simply-reactive.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simply-reactive/cdn/umd.js"></script>
 <script>
-  const {
-    createAtom,
-    createEffect,
-    createSelector,
-  } = simplyReactive;
+  const { createAtom, createEffect, createSelector } = simplyReactive;
 </script>
 ```
 
@@ -72,7 +64,7 @@ import {
 - [Groups](#group) are atoms containing collections of reactive primitives or other reactive composites.
 - [Effect Groups](#effect-group) are collections of effects used for enabeling and disabeling multiple effects at once.
 - [Resources](#resource) are selectors specifically optimized for data fetching.
-- [Query Atoms](#query-atom) are atoms with two way databindings to query search parameters.
+- [External Selectors](#external-selector) are selectors specifiacally optimized for interfacing with other reactive systems.
 
 ### Atom
 
@@ -175,19 +167,23 @@ Data.invalidate();
 console.log(`Data after second load ${await Data.get()}`);
 ```
 
-### Query Atom
+### External Selector
 
-Query Atoms are atoms with two way databindings to query search parameters.
+External Selectors are selectors specifiacally optimized for interfacing with other reactive systems.
 
 ```ts
-const A = createQueryAtom({
-  key: 'a',
-  default: 0,
+const Name = createExternalSelector({
+  default: '',
+  setup: (set) => {
+    document
+      .querySelector('#input')
+      .addEventListener('change', (ev) => set(ev.target.value));
+  },
 });
 
-A.set(3);
-
-// Reload page
-
-A.get(); // 3
+createEffect(() => {
+  document.querySelector('#output').innerText = `Hello, ${
+    Name.get() ?? 'World'
+  }!`;
+});
 ```
