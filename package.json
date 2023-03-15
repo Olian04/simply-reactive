@@ -12,7 +12,6 @@
     "build:node": "rimraf ./dist && tsc",
     "build:web": "rimraf ./cdn && rollup --config",
     "demo:count": "ts-node ./demos/count.ts",
-    "demo:effectGroup": "ts-node ./demos/effectGroup.ts",
     "demo:group": "ts-node ./demos/group.ts",
     "demo:selector": "ts-node ./demos/selector.ts",
     "demo:web": "http-server -c-1 -o ./demos/web.html",
