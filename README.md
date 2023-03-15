@@ -1,4 +1,5 @@
 [![Latest released version](https://img.shields.io/npm/v/simply-reactive)](https://www.npmjs.com/package/simply-reactive)
+[![Minified and gzipped bundle size](https://img.shields.io/bundlephobia/minzip/simply-reactive)](https://bundlephobia.com/package/simply-reactive)
 ![Type support](https://img.shields.io/npm/types/simply-reactive)
 [![Downloads from NPM](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
 [![Downloads from JSDeliver](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
