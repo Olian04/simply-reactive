@@ -1,22 +1,16 @@
-import type { ImplementsGet } from '../types/traits/ImplementsGet';
-import type { ImplementsSubscribe } from '../types/traits/ImplementsSubscribe';
+import type { GroupProps } from '../types/props/GroupProps';
 import type { Group } from '../types/Group';
 
 import { getNextAutoKey } from '../globals/autoKey';
 import { createAtom } from '../primitives/createAtom';
 
-export const createGroup = <
-  Value extends ImplementsSubscribe & ImplementsGet<unknown>
->(props: {
-  key?: string;
-  getDefault: (id: string) => Value;
-}): Group<Value> => {
+export const createGroup = <T>(props: GroupProps<T>): Group<T> => {
   const key = props.key || getNextAutoKey();
 
   const Container = createAtom({
     key,
     default: {} as {
-      [k in string]: Value;
+      [k in string]: T;
     },
   });
 
@@ -43,6 +37,6 @@ export const createGroup = <
         });
       }
     },
-    clear: () => Container.set({} as ReturnType<typeof Container.get>),
+    clear: () => Container.set({}),
   };
 };
