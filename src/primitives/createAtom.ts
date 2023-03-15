@@ -1,6 +1,6 @@
 import type { Atom } from '../types/Atom';
-import type { AtomMemory } from '../types/AtomMemory';
-import type { AtomProps } from '../types/AtomProps';
+import type { AtomMemory } from '../types/memory/AtomMemory';
+import type { AtomProps } from '../types/props/AtomProps';
 
 import { registerDependency } from '../globals/contextStack';
 import { getNextAutoKey } from '../globals/autoKey';

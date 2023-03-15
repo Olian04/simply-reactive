@@ -5,9 +5,9 @@ import type { ImplementsKey } from './traits/ImplementsKey';
 import type { ImplementsRemove } from './traits/ImplementsRemove';
 import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
 
-export type Group<Id, Value> = ImplementsKey &
-  ImplementsGet<Value[]> &
-  ImplementsFind<Value, Id> &
-  ImplementsRemove<Id> &
+export type Group<Value> = ImplementsKey &
+  ImplementsGet<string[]> &
+  ImplementsFind<string | number, Value> &
+  ImplementsRemove<string | number> &
   ImplementsClear &
   ImplementsSubscribe;

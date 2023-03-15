@@ -23,26 +23,17 @@
       <input id="in-b" />
     </lable>
 
-    <br />
-    <div id="links"></div>
-    <a id="link-a" href="">Increment A</a>
-    <a id="link-b" href="">Increment B</a>
-
     <script src="../cdn/simply-reactive.cjs"></script>
     <script>
-      const {
-        createQueryAtom,
-        createSelector,
-        createEffect,
-        createEffectGroup,
-      } = simplyReactive;
+      const { createAtom, createSelector, createEffect, createEffectGroup } =
+        simplyReactive;
 
-      const A = createQueryAtom({
+      const A = createAtom({
         key: 'Atom A',
         default: 2,
       });
 
-      const B = createQueryAtom({
+      const B = createAtom({
         key: 'Atom B',
         default: 3,
       });
@@ -63,10 +54,6 @@
         },
         () => {
           document.getElementById('out-product').innerText = Product.get();
-        },
-        () => {
-          document.getElementById('link-a').href = A.urlWhenSet((v) => v + 1);
-          document.getElementById('link-b').href = B.urlWhenSet((v) => v + 1);
         },
       ]);
 

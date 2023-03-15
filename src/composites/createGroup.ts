@@ -1,57 +1,42 @@
-import type { ImplementsGet } from '../types/traits/ImplementsGet';
-import type { ImplementsSubscribe } from '../types/traits/ImplementsSubscribe';
+import type { GroupProps } from '../types/props/GroupProps';
 import type { Group } from '../types/Group';
 
 import { getNextAutoKey } from '../globals/autoKey';
-import { INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { createAtom } from '../primitives/createAtom';
-import { createSelector } from '../primitives/createSelector';
 
-export const createGroup = <
-  Id extends string | number,
-  Value extends ImplementsSubscribe & ImplementsGet<unknown>
->(props: {
-  key?: string;
-  getDefault: (id: Id) => Value;
-}): Group<Id, Value> => {
+export const createGroup = <T>(props: GroupProps<T>): Group<T> => {
   const key = props.key || getNextAutoKey();
 
   const Container = createAtom({
-    key: `${INTERNAL_KEY_PREFIX}${key}_group_container`,
-    default: {} as { [k in Id]: Value },
-  });
-
-  const SubscribeTarget = createSelector({
-    key: key,
-    get: () => {
-      const arr = Container.get(); // Subscribe to the container
-      Object.values<Value>(arr).forEach((V) => {
-        V.get(); // Subscribe to each value in the container
-      });
+    key,
+    default: {} as {
+      [k in string]: T;
     },
   });
 
   return {
     key,
-    subscribe: SubscribeTarget.subscribe,
-    get: () => Object.values(Container.get()),
+    subscribe: Container.subscribe,
+    get: () => Object.keys(Container.get()),
     find: (id) => {
-      if (!Container.get()[id]) {
+      const strId = String(id);
+      if (!(strId in Container.get())) {
         Container.set((container) => {
-          container[id] = props.getDefault(id);
+          container[strId] = props.getDefault(strId);
           return container;
         });
       }
-      return Container.get()[id];
+      return Container.get()[strId];
     },
     remove: (id) => {
-      if (Container.get()[id]) {
+      const strId = String(id);
+      if (strId in Container.get()) {
         Container.set((container) => {
-          delete container[id];
+          delete container[strId];
           return container;
         });
       }
     },
-    clear: () => Container.set({} as ReturnType<typeof Container.get>),
+    clear: () => Container.set({}),
   };
 };

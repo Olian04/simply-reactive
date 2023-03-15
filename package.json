@@ -1,8 +1,8 @@
 {
   "name": "simply-reactive",
-  "version": "4.1.0",
+  "version": "5.0.1",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
-  "browser": "cdn/simply-reactive.mjs",
+  "browser": "cdn/esm.mjs",
   "main": "dist/api.js",
   "types": "dist/api.d.ts",
   "scripts": {
@@ -12,7 +12,6 @@
     "build:node": "rimraf ./dist && tsc",
     "build:web": "rimraf ./cdn && rollup --config",
     "demo:count": "ts-node ./demos/count.ts",
-    "demo:effectGroup": "ts-node ./demos/effectGroup.ts",
     "demo:group": "ts-node ./demos/group.ts",
     "demo:selector": "ts-node ./demos/selector.ts",
     "demo:web": "http-server -c-1 -o ./demos/web.html",

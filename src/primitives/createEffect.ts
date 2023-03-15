@@ -1,6 +1,6 @@
 import type { Effect } from '../types/Effect';
-import type { EffectMemory } from '../types/EffectMemory';
-import type { EffectProps } from '../types/EffectProps';
+import type { EffectMemory } from '../types/memory/EffectMemory';
+import type { EffectProps } from '../types/props/EffectProps';
 
 import {
   pushReactiveContext,
@@ -14,8 +14,6 @@ import { unsubscribeAllDependencies } from '../globals/subscribe';
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.
  * Changes to dependencies will enqueue the effect to run once the debounce duration has passed and the event queue is empty.
  * Further changes made before the effect runs will debounce the effect again.
- *
- * @param {number} config.debounceDuration The minimum number of milliseconds to wait before running the effect once a change has been detected. Setting the debounceDuration to `-1` will disable the debounce behavior entirely.
  */
 export const createEffect = (
   notifyCallback: EffectProps.Callback,

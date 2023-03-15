@@ -1,23 +1,22 @@
+import type { ResourceProps } from '../types/props/ResourceProps';
 import type { Resource } from '../types/Resource';
 
-import { getNextAutoKey } from '../globals/autoKey';
-import { INTERNAL_KEY_PREFIX } from '../globals/constants';
+import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
 import { createAtom } from '../primitives/createAtom';
 import { createSelector } from '../primitives/createSelector';
 
-export const createResource = <T extends Promise<unknown>>(props: {
-  key?: string;
-  get: () => T;
-}): Resource<T> => {
+export const createResource = <T extends Promise<unknown>>(
+  props: ResourceProps<T>
+): Resource<T> => {
   const key = props.key || getNextAutoKey();
 
   const RequestInvalidator = createAtom({
-    key: `${INTERNAL_KEY_PREFIX}${key}_invalidator`,
+    key: toInternalKey(`${key}_invalidator`),
     default: 0,
   });
 
   const InnerSelector = createSelector<T>({
-    key: key,
+    key,
     get: () => {
       RequestInvalidator.get();
       return props.get();

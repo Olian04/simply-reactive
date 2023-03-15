@@ -1,7 +1,6 @@
-import type { MemoryBase } from '../types/MemoryBase';
-import type { SelectorMemory } from '../types/SelectorMemory';
-import type { AtomMemory } from '../types/AtomMemory';
-import type { EffectMemory } from '../types/EffectMemory';
+import type { SelectorMemory } from '../types/memory/SelectorMemory';
+import type { AtomMemory } from '../types/memory/AtomMemory';
+import type { EffectMemory } from '../types/memory/EffectMemory';
 
 import { getMemory } from './memory';
 

@@ -1,5 +1,5 @@
-import type { AtomMemory } from '../types/AtomMemory';
-import type { SelectorMemory } from '../types/SelectorMemory';
+import type { AtomMemory } from '../types/memory/AtomMemory';
+import type { SelectorMemory } from '../types/memory/SelectorMemory';
 
 import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from '../globals/constants';
 import { getAllLivingMemory } from '../globals/memory';
