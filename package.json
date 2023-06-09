@@ -1,6 +1,6 @@
 {
   "name": "simply-reactive",
-  "version": "5.0.2",
+  "version": "6.0.0",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
   "type": "module",
   "sideEffects": false,
