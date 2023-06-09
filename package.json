@@ -16,7 +16,7 @@
     "prepublishOnly": "npm run build",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "vitest run --coverage",
-    "test:integration": "cd integration && rimraf ./node_modules && rimraf package-lock.json && npm i --silent && node ./esm.mjs && node ./umd.cjs",
+    "test:integration": "cd integration && npm test",
     "build": "npm run build:esm && npm run build:umd",
     "build:esm": "rimraf ./dist && tsc",
     "build:umd": "rimraf ./legacy && rollup --config",
