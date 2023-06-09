@@ -14,16 +14,20 @@
   "types": "./dist/api.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "vitest run --coverage",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "vitest run --coverage",
+    "test:integration": "cd demos && npm i && npm run test:integration:esm && npm run test:integration:umd",
+    "test:integration:esm": "node ./integration/esm.mjs",
+    "test:integration:umd": "node ./integration/umd.cjs",
     "build": "npm run build:esm && npm run build:umd",
     "build:esm": "rimraf ./dist && tsc",
     "build:umd": "rimraf ./legacy && rollup --config",
+    "upload:coverage": "codecov",
     "demo:count": "ts-node ./demos/count.ts",
     "demo:group": "ts-node ./demos/group.ts",
     "demo:selector": "ts-node ./demos/selector.ts",
     "demo:web": "http-server -c-1 -o ./demos/web.html",
-    "demo:web:simple": "http-server -c-1 -o ./demos/web.simple.html",
-    "upload:coverage": "codecov"
+    "demo:web:simple": "http-server -c-1 -o ./demos/web.simple.html"
   },
   "keywords": [
     "state management",
