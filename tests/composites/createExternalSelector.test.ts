@@ -1,5 +1,4 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 
 import { getAllLivingMemory } from '../../src/globals/memory';
 import { createSelector } from '../../src/primitives/createSelector';
@@ -12,7 +11,7 @@ describe('createExternalSelector', () => {
 
       const A = createExternalSelector({
         default: 0,
-        setup: (set) => {},
+        setup: (set) => { },
       });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
@@ -32,12 +31,12 @@ describe('createExternalSelector', () => {
 
       const A = createExternalSelector({
         default: 0,
-        setup: (set) => {},
+        setup: (set) => { },
       });
       const B = createExternalSelector({
         key: A.key,
         default: 0,
-        setup: (set) => {},
+        setup: (set) => { },
       });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;

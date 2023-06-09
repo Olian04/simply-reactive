@@ -1,8 +1,8 @@
-import type { SelectorMemory } from '../types/memory/SelectorMemory';
-import type { AtomMemory } from '../types/memory/AtomMemory';
-import type { EffectMemory } from '../types/memory/EffectMemory';
+import type { SelectorMemory } from '../types/memory/SelectorMemory.js';
+import type { AtomMemory } from '../types/memory/AtomMemory.js';
+import type { EffectMemory } from '../types/memory/EffectMemory.js';
 
-import { getMemory } from './memory';
+import { getMemory } from './memory.js';
 
 export const notifyLivingSubscribers = (key: string) => {
   const mem = getMemory<AtomMemory | SelectorMemory>(key);

@@ -1,5 +1,4 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 
 import { getAllLivingMemory } from '../../src/globals/memory';
 import { createAtom } from '../../src/primitives/createAtom';

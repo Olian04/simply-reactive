@@ -1,4 +1,4 @@
-import { subscribeTo } from './subscribe';
+import { subscribeTo } from './subscribe.js';
 
 const contextStack: string[] = [];
 export const pushReactiveContext = (key: string) => contextStack.push(key);

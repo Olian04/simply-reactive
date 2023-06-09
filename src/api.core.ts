@@ -1,7 +1,7 @@
-export { createAtom } from './primitives/createAtom';
-export { createSelector } from './primitives/createSelector';
-export { createEffect } from './primitives/createEffect';
+export { createAtom } from './primitives/createAtom.js';
+export { createSelector } from './primitives/createSelector.js';
+export { createEffect } from './primitives/createEffect.js';
 
-export type { Atom } from './types/Atom';
-export type { Selector } from './types/Selector';
-export type { Effect } from './types/Effect';
+export type { Atom } from './types/Atom.js';
+export type { Selector } from './types/Selector.js';
+export type { Effect } from './types/Effect.js';

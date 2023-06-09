@@ -1,11 +1,11 @@
-import type { Atom } from '../types/Atom';
-import type { AtomMemory } from '../types/memory/AtomMemory';
-import type { AtomProps } from '../types/props/AtomProps';
+import type { Atom } from '../types/Atom.js';
+import type { AtomMemory } from '../types/memory/AtomMemory.js';
+import type { AtomProps } from '../types/props/AtomProps.js';
 
-import { registerDependency } from '../globals/contextStack';
-import { getNextAutoKey } from '../globals/autoKey';
-import { getMemoryOrDefault } from '../globals/memory';
-import { notifyLivingSubscribers } from '../globals/subscribe';
+import { registerDependency } from '../globals/contextStack.js';
+import { getNextAutoKey } from '../globals/autoKey.js';
+import { getMemoryOrDefault } from '../globals/memory.js';
+import { notifyLivingSubscribers } from '../globals/subscribe.js';
 
 /**
  * Returns an atomic piece of reactive state.

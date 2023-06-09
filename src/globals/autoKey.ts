@@ -1,4 +1,4 @@
-import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from './constants';
+import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from './constants.js';
 
 let nextAutoKey = 1;
 

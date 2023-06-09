@@ -4,6 +4,7 @@
 [![Downloads from NPM](https://img.shields.io/npm/dm/simply-reactive?label=downloads%20npm)](https://www.npmjs.com/package/simply-reactive)
 [![Downloads from JSDeliver](https://img.shields.io/jsdelivr/npm/hm/simply-reactive?label=downloads%20jsDelivr)](https://www.jsdelivr.com/package/npm/simply-reactive)
 [![Build status of main branch](https://img.shields.io/circleci/build/github/Olian04/simply-reactive/main?label=test%20%26%20build)](https://app.circleci.com/pipelines/github/Olian04/simply-reactive)
+[![Code percentage covered by tests on main branch](https://codecov.io/gh/Olian04/simply-reactive/branch/main/graph/badge.svg?token=mcsHmshPaF)](https://codecov.io/gh/Olian04/simply-reactive)
 [![MIT licensed](https://img.shields.io/npm/l/simply-reactive)](./LICENSE)
 
 # simply-reactive

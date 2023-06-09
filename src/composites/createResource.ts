@@ -1,9 +1,9 @@
-import type { ResourceProps } from '../types/props/ResourceProps';
-import type { Resource } from '../types/Resource';
+import type { ResourceProps } from '../types/props/ResourceProps.js';
+import type { Resource } from '../types/Resource.js';
 
-import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
-import { createAtom } from '../primitives/createAtom';
-import { createSelector } from '../primitives/createSelector';
+import { getNextAutoKey, toInternalKey } from '../globals/autoKey.js';
+import { createAtom } from '../primitives/createAtom.js';
+import { createSelector } from '../primitives/createSelector.js';
 
 export const createResource = <T extends Promise<unknown>>(
   props: ResourceProps<T>
