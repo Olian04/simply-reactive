@@ -1,8 +1,8 @@
-import type { AtomMemory } from '../types/memory/AtomMemory';
-import type { SelectorMemory } from '../types/memory/SelectorMemory';
+import type { AtomMemory } from '../types/memory/AtomMemory.js';
+import type { SelectorMemory } from '../types/memory/SelectorMemory.js';
 
-import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from '../globals/constants';
-import { getAllLivingMemory } from '../globals/memory';
+import { AUTO_KEY_PREFIX, INTERNAL_KEY_PREFIX } from '../globals/constants.js';
+import { getAllLivingMemory } from '../globals/memory.js';
 
 type IncludeCategory = 'auto-keyed' | 'name-keyed' | 'internal';
 

@@ -1,9 +1,9 @@
-import type { ImplementsClear } from './traits/ImplementsClear';
-import type { ImplementsFind } from './traits/ImplementsFind';
-import type { ImplementsGet } from './traits/ImplementsGet';
-import type { ImplementsKey } from './traits/ImplementsKey';
-import type { ImplementsRemove } from './traits/ImplementsRemove';
-import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
+import type { ImplementsClear } from './traits/ImplementsClear.js';
+import type { ImplementsFind } from './traits/ImplementsFind.js';
+import type { ImplementsGet } from './traits/ImplementsGet.js';
+import type { ImplementsKey } from './traits/ImplementsKey.js';
+import type { ImplementsRemove } from './traits/ImplementsRemove.js';
+import type { ImplementsSubscribe } from './traits/ImplementsSubscribe.js';
 
 export type Group<Value> = ImplementsKey &
   ImplementsGet<string[]> &

@@ -16,11 +16,14 @@ jobs:
           command: npm install --force
           name: Install Dependencies
       - run:
+          command: npm run build
+          name: Build app
+      - run:
           command: npm run test
           name: Run tests
       - run:
-          command: npm run build
-          name: Build app
+          command: npm run upload:coverage
+          name: Upload coverage report
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows

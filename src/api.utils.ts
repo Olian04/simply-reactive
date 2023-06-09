@@ -1,1 +1,1 @@
-export { visualizeDependencyGraph } from './utils/visualizeDependencyGraph';
+export { visualizeDependencyGraph } from './utils/visualizeDependencyGraph.js';

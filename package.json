@@ -2,20 +2,28 @@
   "name": "simply-reactive",
   "version": "5.0.2",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
-  "browser": "cdn/esm.mjs",
-  "main": "dist/api.js",
-  "types": "dist/api.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "require": "./legacy/umd.cjs",
+    "import": "./dist/api.js",
+    "types": "./dist/api.d.ts",
+    "default": "./dist/api.js"
+  },
+  "main": "./legacy/umd.cjs",
+  "types": "./dist/api.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "test": "mocha",
-    "build": "npm run build:node && npm run build:web",
-    "build:node": "rimraf ./dist && tsc",
-    "build:web": "rimraf ./cdn && rollup --config",
+    "test": "vitest run --coverage",
+    "build": "npm run build:esm && npm run build:umd",
+    "build:esm": "rimraf ./dist && tsc",
+    "build:umd": "rimraf ./legacy && rollup --config",
     "demo:count": "ts-node ./demos/count.ts",
     "demo:group": "ts-node ./demos/group.ts",
     "demo:selector": "ts-node ./demos/selector.ts",
     "demo:web": "http-server -c-1 -o ./demos/web.html",
-    "demo:web:simple": "http-server -c-1 -o ./demos/web.simple.html"
+    "demo:web:simple": "http-server -c-1 -o ./demos/web.simple.html",
+    "upload:coverage": "codecov"
   },
   "keywords": [
     "state management",
@@ -32,23 +40,21 @@
   },
   "homepage": "https://github.com/Olian04/simply-reactive#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.4",
-    "@types/es6-promise": "3.3.0",
-    "@types/mocha": "^10.0.1",
     "@types/rollup-plugin-commonjs": "^9.3.1",
     "@types/rollup-plugin-node-resolve": "^4.1.0",
     "@types/typescript": "^2.0.0",
-    "chai": "^4.3.7",
-    "mocha": "^10.2.0",
-    "rimraf": "^4.1.2",
-    "rollup": "3.12.1",
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-terser": "^0.4.0",
     "@rollup/plugin-typescript": "^11.0.0",
-    "ts-node": "^10.9.1",
+    "@vitest/coverage-c8": "^0.30.1",
+    "codecov": "^3.8.3",
+    "rimraf": "^5.0.0",
+    "rollup": "3.20.2",
+    "typescript": "^5.0.4",
     "tslib": "^2.5.0",
-    "typescript": "^4.9.5",
-    "http-server": "^14.1.1"
+    "ts-node": "^10.9.1",
+    "http-server": "^14.1.1",
+    "vitest": "^0.30.1"
   }
 }

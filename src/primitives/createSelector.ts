@@ -1,15 +1,15 @@
-import type { Selector } from '../types/Selector';
-import type { SelectorMemory } from '../types/memory/SelectorMemory';
-import type { SelectorProps } from '../types/props/SelectorProps';
+import type { Selector } from '../types/Selector.js';
+import type { SelectorMemory } from '../types/memory/SelectorMemory.js';
+import type { SelectorProps } from '../types/props/SelectorProps.js';
 
 import {
   registerDependency,
   pushReactiveContext,
   popReactiveContext,
-} from '../globals/contextStack';
-import { getNextAutoKey } from '../globals/autoKey';
-import { getMemoryOrDefault } from '../globals/memory';
-import { unsubscribeAllDependencies } from '../globals/subscribe';
+} from '../globals/contextStack.js';
+import { getNextAutoKey } from '../globals/autoKey.js';
+import { getMemoryOrDefault } from '../globals/memory.js';
+import { unsubscribeAllDependencies } from '../globals/subscribe.js';
 
 /**
  * Returns a lazily evaluated selector that only re-evaluates when the values of its dependencies change.

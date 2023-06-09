@@ -1,7 +1,7 @@
-import type { ImplementsGet } from './traits/ImplementsGet';
-import type { ImplementsKey } from './traits/ImplementsKey';
-import type { ImplementsSet } from './traits/ImplementsSet';
-import type { ImplementsSubscribe } from './traits/ImplementsSubscribe';
+import type { ImplementsGet } from './traits/ImplementsGet.js';
+import type { ImplementsKey } from './traits/ImplementsKey.js';
+import type { ImplementsSet } from './traits/ImplementsSet.js';
+import type { ImplementsSubscribe } from './traits/ImplementsSubscribe.js';
 
 export type Atom<T> = ImplementsKey &
   ImplementsGet<T> &

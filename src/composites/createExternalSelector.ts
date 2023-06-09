@@ -1,9 +1,9 @@
-import type { ExternalSelectorProps } from '../types/props/ExternalSelectorProps';
-import type { ExternalSelector } from '../types/ExternalSelector';
+import type { ExternalSelectorProps } from '../types/props/ExternalSelectorProps.js';
+import type { ExternalSelector } from '../types/ExternalSelector.js';
 
-import { getNextAutoKey, toInternalKey } from '../globals/autoKey';
-import { createAtom } from '../primitives/createAtom';
-import { createEffect } from '../primitives/createEffect';
+import { getNextAutoKey, toInternalKey } from '../globals/autoKey.js';
+import { createAtom } from '../primitives/createAtom.js';
+import { createEffect } from '../primitives/createEffect.js';
 
 export const createExternalSelector = <T>(
   props: ExternalSelectorProps<T>

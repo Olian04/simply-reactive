@@ -1,8 +1,8 @@
-import type { GroupProps } from '../types/props/GroupProps';
-import type { Group } from '../types/Group';
+import type { GroupProps } from '../types/props/GroupProps.js';
+import type { Group } from '../types/Group.js';
 
-import { getNextAutoKey } from '../globals/autoKey';
-import { createAtom } from '../primitives/createAtom';
+import { getNextAutoKey } from '../globals/autoKey.js';
+import { createAtom } from '../primitives/createAtom.js';
 
 export const createGroup = <T>(props: GroupProps<T>): Group<T> => {
   const key = props.key || getNextAutoKey();

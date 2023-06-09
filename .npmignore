@@ -1,11 +1,9 @@
 .gitignore
 .editorconfig
-.mocharc.js
 rollup.config.mjs
 tsconfig.json
 .vscode
 .circleci
 demos/
 node_modules/
-src/
 tests/

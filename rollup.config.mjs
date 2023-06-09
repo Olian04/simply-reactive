@@ -7,43 +7,33 @@ import terser from '@rollup/plugin-terser';
 export default [
   {
     input: './src/api.ts',
-    output: {
-      file: './cdn/umd.js',
-      format: 'umd',
-      name: 'simplyReactive',
-    },
+    output: [
+      {
+        file: './legacy/umd.js',
+        format: 'umd',
+        name: 'simplyReactive',
+        sourcemap: true,
+      },
+      {
+        file: './legacy/umd.cjs',
+        format: 'umd',
+        name: 'simplyReactive',
+        sourcemap: true,
+      }
+    ],
     plugins: [
       typescript({
         target: 'es5',
-        module: 'esnext',
+        module: 'es6',
         compilerOptions: {
           declaration: false,
-          sourceMap: false,
+          sourceMap: true,
         },
+        exclude: ['tests/**/*.ts'],
       }),
       resolve(),
       commonjs(),
       terser(),
     ],
-  },
-  {
-    input: './src/api.ts',
-    output: {
-      file: './cdn/esm.mjs',
-      format: 'es',
-    },
-    plugins: [
-      typescript({
-        target: 'es6',
-        module: 'esnext',
-        compilerOptions: {
-          declaration: false,
-          sourceMap: false,
-        },
-      }),
-      resolve(),
-      commonjs(),
-      terser(),
-    ],
-  },
+  }
 ];

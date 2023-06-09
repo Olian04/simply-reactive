@@ -1,5 +1,4 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 
 import { getAllLivingMemory } from '../../src/globals/memory';
 import { createEffectGroup } from '../../src/composites/createEffectGroup';
@@ -10,7 +9,7 @@ describe('createEffectGroup', () => {
       const start = Object.keys(getAllLivingMemory()).length;
 
       const key = `effect_${i}`;
-      const EffectGroup = createEffectGroup([() => {}, () => {}, () => {}], {
+      const EffectGroup = createEffectGroup([() => { }, () => { }, () => { }], {
         key,
       });
 
@@ -30,10 +29,10 @@ describe('createEffectGroup', () => {
       const start = Object.keys(getAllLivingMemory()).length;
 
       const key = `effect_${i}`;
-      createEffectGroup([() => {}, () => {}, () => {}], {
+      createEffectGroup([() => { }, () => { }, () => { }], {
         key,
       });
-      const EffectGroup = createEffectGroup([() => {}, () => {}, () => {}], {
+      const EffectGroup = createEffectGroup([() => { }, () => { }, () => { }], {
         key,
       });
 

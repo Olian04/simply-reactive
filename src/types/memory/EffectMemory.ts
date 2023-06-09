@@ -1,4 +1,4 @@
-import type { MemoryBase } from './MemoryBase';
+import type { MemoryBase } from './MemoryBase.js';
 
 export type EffectMemory = MemoryBase & {
   notifyTimeoutId: NodeJS.Timeout | number | undefined;

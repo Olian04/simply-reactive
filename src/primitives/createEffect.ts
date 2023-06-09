@@ -1,14 +1,14 @@
-import type { Effect } from '../types/Effect';
-import type { EffectMemory } from '../types/memory/EffectMemory';
-import type { EffectProps } from '../types/props/EffectProps';
+import type { Effect } from '../types/Effect.js';
+import type { EffectMemory } from '../types/memory/EffectMemory.js';
+import type { EffectProps } from '../types/props/EffectProps.js';
 
 import {
   pushReactiveContext,
   popReactiveContext,
-} from '../globals/contextStack';
-import { getNextAutoKey } from '../globals/autoKey';
-import { deleteMemory, getMemoryOrDefault } from '../globals/memory';
-import { unsubscribeAllDependencies } from '../globals/subscribe';
+} from '../globals/contextStack.js';
+import { getNextAutoKey } from '../globals/autoKey.js';
+import { deleteMemory, getMemoryOrDefault } from '../globals/memory.js';
+import { unsubscribeAllDependencies } from '../globals/subscribe.js';
 
 /**
  * Creates an eagerly evaluated synchronous or asynchronous effect that re-runs whenever the values of its dependencies change.

@@ -1,5 +1,4 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { describe, it, expect } from 'vitest';
 
 import type { Effect } from '../../src/types/Effect';
 
@@ -13,7 +12,7 @@ describe('createEffect', () => {
     for (let i = 0; i < 10; i++) {
       const start = Object.keys(getAllLivingMemory()).length;
 
-      const Effect = createEffect(() => {}, { key: `effect_${i}` });
+      const Effect = createEffect(() => { }, { key: `effect_${i}` });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
 
@@ -31,8 +30,8 @@ describe('createEffect', () => {
       const start = Object.keys(getAllLivingMemory()).length;
 
       const key = `effect_${i}`;
-      createEffect(() => {}, { key });
-      const Effect = createEffect(() => {}, { key });
+      createEffect(() => { }, { key });
+      const Effect = createEffect(() => { }, { key });
 
       const afterCreation = Object.keys(getAllLivingMemory()).length;
 

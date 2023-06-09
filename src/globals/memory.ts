@@ -1,4 +1,4 @@
-import type { MemoryBase } from '../types//memory/MemoryBase';
+import type { MemoryBase } from '../types//memory/MemoryBase.js';
 
 const globalStrongMemory = new Map<string, MemoryBase>();
 
