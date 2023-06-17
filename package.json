@@ -1,14 +1,36 @@
 {
   "name": "simply-reactive",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "A tiny reactive state management library inspired by Recoiljs and Solidjs.",
   "type": "module",
   "sideEffects": false,
   "exports": {
-    "require": "./legacy/umd.cjs",
-    "import": "./dist/api.js",
-    "types": "./dist/api.d.ts",
-    "default": "./dist/api.js"
+    ".": {
+      "require": "./legacy/umd.cjs",
+      "import": "./dist/api.js",
+      "types": "./dist/api.d.ts",
+      "default": "./dist/api.js"
+    },
+    "./core": {
+      "import": "./dist/api.core.js",
+      "types": "./dist/api.core.d.ts",
+      "default": "./dist/api.core.js"
+    },
+    "./traits": {
+      "import": "./dist/api.traits.js",
+      "types": "./dist/api.traits.d.ts",
+      "default": "./dist/api.traits.js"
+    },
+    "./composites": {
+      "import": "./dist/api.composites.ts",
+      "types": "./dist/api.composites.d.ts",
+      "default": "./dist/api.composites.js"
+    },
+    "./utils": {
+      "import": "./dist/api.utils.js",
+      "types": "./dist/api.utils.d.ts",
+      "default": "./dist/api.utils.js"
+    }
   },
   "main": "./legacy/umd.cjs",
   "types": "./dist/api.d.ts",

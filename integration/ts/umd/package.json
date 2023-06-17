@@ -1,0 +1,12 @@
+{
+  "type": "commonjs",
+  "dependencies": {
+    "chai": "4.3.7",
+    "typescript": "^5.1.3",
+    "simply-reactive": "file:../../../"
+  },
+  "scripts": {
+    "pretest": "rimraf ./node_modules && rimraf package-lock.json && npm i --silent && tsc",
+    "test": "node ./main.js"
+  }
+}

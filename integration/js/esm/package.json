@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "chai": "4.3.7",
+    "simply-reactive": "file:../../../"
+  },
+  "scripts": {
+    "pretest": "rimraf ./node_modules && rimraf package-lock.json && npm i --silent",
+    "test": "node ./main.mjs"
+  }
+}

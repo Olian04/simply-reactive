@@ -104,4 +104,4 @@ dist
 .tern-port
 
 legacy/
-integration/package-lock.json
+integration/**/package-lock.json

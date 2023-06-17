@@ -1,10 +1,9 @@
 {
-  "dependencies": {
-    "chai": "4.3.7",
-    "simply-reactive": "file:.."
-  },
   "scripts": {
-    "pretest": "rimraf ./node_modules && rimraf package-lock.json && npm i --silent",
-    "test": "node ./esm.mjs && node ./umd.cjs"
+    "test": "npm run test:js:esm && npm run test:js:umd && npm run test:ts:esm && npm run test:ts:umd",
+    "test:js:esm": "cd ./js/esm && npm test",
+    "test:js:umd": "cd ./js/umd && npm test",
+    "test:ts:esm": "cd ./ts/esm && npm test",
+    "test:ts:umd": "cd ./ts/umd && npm test"
   }
 }

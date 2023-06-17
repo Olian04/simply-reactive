@@ -2,9 +2,10 @@
 .editorconfig
 rollup.config.mjs
 tsconfig.json
-.vscode
-.circleci
+.vscode/
+.circleci/
 demos/
 node_modules/
 tests/
 integration/
+coverage/
