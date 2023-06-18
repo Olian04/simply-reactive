@@ -41,6 +41,22 @@ export const subscribeTo = (key: string, depKey: string) => {
   depMem.dependencies.add(key);
 };
 
+export const getDependencyHash = (key: string): string | null => {
+  const mem = getMemory<EffectMemory | SelectorMemory>(key);
+  if (!mem) return null;
+  if (!('dependencies' in mem)) return null;
+
+  const dependencyHash = [];
+
+  for (let depKey of mem.dependencies.values()) {
+    const depMem = getMemory<AtomMemory | SelectorMemory>(depKey);
+    if (!depMem) return null;
+    dependencyHash.push(`${depKey}:${depMem.valueHash}`);
+  }
+
+  return JSON.stringify(dependencyHash);
+};
+
 export const unsubscribeAllDependencies = (key: string) => {
   const mem = getMemory<EffectMemory | SelectorMemory>(key);
   if (!mem) return;

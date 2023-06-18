@@ -1,11 +1,12 @@
 import type { ExternalSelectorProps } from '../types/props/ExternalSelectorProps.js';
 import type { ExternalSelector } from '../types/ExternalSelector.js';
+import type { Serializeable } from '../types/util/Serializeable.js';
 
 import { getNextAutoKey, toInternalKey } from '../globals/autoKey.js';
 import { createAtom } from '../primitives/createAtom.js';
 import { createEffect } from '../primitives/createEffect.js';
 
-export const createExternalSelector = <T>(
+export const createExternalSelector = <T extends Serializeable>(
   props: ExternalSelectorProps<T>
 ): ExternalSelector<T> => {
   const key = props.key || getNextAutoKey();
